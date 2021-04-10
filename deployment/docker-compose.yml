@@ -1,0 +1,12 @@
+version: "2.4"
+
+services:
+  hayasui:
+    container_name: hayasui
+    image: hayasui:latest
+    command: /hayasui bot
+    build:
+      context: ./..
+      dockerfile: ./build/package/Dockerfile
+    env_file: ./../.env
+    restart: unless-stopped
