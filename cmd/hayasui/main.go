@@ -7,7 +7,13 @@ import (
 	"syscall"
 	"time"
 
-	"github.com/rl404/hayasui/internal"
+	"github.com/rl404/hayasui/internal/api"
+	_cache "github.com/rl404/hayasui/internal/api/cache"
+	"github.com/rl404/hayasui/internal/api/http"
+	"github.com/rl404/hayasui/internal/cache"
+	"github.com/rl404/hayasui/internal/config"
+	"github.com/rl404/hayasui/internal/discord"
+	"github.com/rl404/hayasui/internal/handler"
 	"github.com/spf13/cobra"
 )
 
@@ -32,43 +38,42 @@ func main() {
 
 func bot() error {
 	// Get config.
-	cfg, err := internal.GetConfig()
-	if err != nil {
-		return err
-	}
-
-	// Init api.
-	api, err := internal.NewAPI(cfg.ApiHost)
+	cfg, err := config.GetConfig()
 	if err != nil {
 		return err
 	}
 
 	// Init redis.
-	redis, err := internal.NewCache(cfg.Redis.Address, cfg.Redis.Password, time.Duration(cfg.Redis.Time)*time.Second)
+	redis, err := cache.NewCache(cfg.Redis.Address, cfg.Redis.Password, time.Duration(cfg.Redis.Time)*time.Second)
 	if err != nil {
 		return err
 	}
 	defer redis.Close()
 
+	// Init api.
+	var service api.API
+	service = http.New(cfg.APIHost)
+	service = _cache.New(redis, service)
+
 	// Init discord.
-	discord, err := internal.NewDiscord(cfg.Token)
+	d, err := discord.New(cfg.Token)
 	if err != nil {
 		return err
 	}
+	defer d.Close()
 
 	// Init handler.
-	mh := internal.NewMessageHandler(api, redis, cfg.Prefix, cfg.LinkHost)
-	rh := internal.NewReactionHandler(api, redis, cfg.LinkHost)
+	mh := handler.NewMessageHandler(service, redis, cfg.Prefix, cfg.LinkHost)
+	rh := handler.NewReactionHandler(service, redis, cfg.LinkHost)
 
 	// Add handler.
-	discord.AddMessageHandler(mh.Handler())
-	discord.AddReactionHandler(rh.Handler())
+	d.AddMessageHandler(mh.Handler())
+	d.AddReactionHandler(rh.Handler())
 
 	// Run bot.
-	if err = discord.Run(); err != nil {
+	if err = d.Run(); err != nil {
 		return err
 	}
-	defer discord.Close()
 
 	log.Println("hayasui is running...")
 

@@ -1,4 +1,4 @@
-package internal
+package handler
 
 import (
 	"log"
@@ -6,33 +6,38 @@ import (
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/rl404/hayasui/internal/api"
+	"github.com/rl404/hayasui/internal/cache"
+	"github.com/rl404/hayasui/internal/constant"
+	"github.com/rl404/hayasui/internal/model"
 )
 
-type reactionHandler struct {
-	api      API
-	cache    Cacher
-	linkHost string
+// ReactionHandler for handling reaction.
+type ReactionHandler struct {
+	api      api.API
+	cache    cache.Cacher
+	template Templater
 }
 
 // NewReactionHandler to create new discord reaction handler.
-func NewReactionHandler(api API, c Cacher, lh string) *reactionHandler {
-	return &reactionHandler{
+func NewReactionHandler(api api.API, c cache.Cacher, lh string) *ReactionHandler {
+	return &ReactionHandler{
 		api:      api,
 		cache:    c,
-		linkHost: lh,
+		template: newTemplate(lh),
 	}
 }
 
 // Handler to get handler function.
-func (h *reactionHandler) Handler() func(*discordgo.Session, *discordgo.MessageReactionAdd) {
+func (h *ReactionHandler) Handler() func(*discordgo.Session, *discordgo.MessageReactionAdd) {
 	return func(s *discordgo.Session, m *discordgo.MessageReactionAdd) {
 		// Ignore bot reaction.
 		if s.State.User.ID == m.UserID {
 			return
 		}
 
-		var cmd cacheModel
-		if err := h.cache.Get(getRedisKey(m.MessageID), &cmd); err != nil {
+		var cmd model.Command
+		if err := h.cache.Get(&cmd, "msg", m.MessageID); err != nil {
 			log.Println(err)
 			return
 		}
@@ -66,24 +71,24 @@ func (h *reactionHandler) Handler() func(*discordgo.Session, *discordgo.MessageR
 	}
 }
 
-func (h *reactionHandler) handleSearchAnime(s *discordgo.Session, m *discordgo.MessageReactionAdd, c cacheModel) {
+func (h *ReactionHandler) handleSearchAnime(s *discordgo.Session, m *discordgo.MessageReactionAdd, c model.Command) {
 	switch m.Emoji.Name {
-	case arrowStart:
+	case constant.ReactionArrowStart:
 		if c.Page == 1 {
 			return
 		}
 		c.Page = 1
-	case arrowLeft:
+	case constant.ReactionArrowLeft:
 		if c.Page == 1 {
 			return
 		}
 		c.Page--
-	case arrowRight:
+	case constant.ReactionArrowRight:
 		if c.Page == c.LastPage {
 			return
 		}
 		c.Page++
-	case arrowEnd:
+	case constant.ReactionArrowEnd:
 		if c.Page == c.LastPage {
 			return
 		}
@@ -100,40 +105,39 @@ func (h *reactionHandler) handleSearchAnime(s *discordgo.Session, m *discordgo.M
 	}
 
 	// Send message.
-	_, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, getSearchTemplate(data, c.Page, anime, blue, cnt))
-	if err != nil {
+	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetSearch(data, c.Page, constant.TypeAnime, cnt)); err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(getRedisKey(m.MessageID), cacheModel{
+	if err = h.cache.Set(model.Command{
 		Commands: c.Commands,
 		Page:     c.Page,
-		LastPage: (cnt / dataPerPage) + 1,
-	}); err != nil {
+		LastPage: (cnt / constant.DataPerPage) + 1,
+	}, "msg", m.MessageID); err != nil {
 		log.Println(err)
 	}
 }
 
-func (h *reactionHandler) handleSearchManga(s *discordgo.Session, m *discordgo.MessageReactionAdd, c cacheModel) {
+func (h *ReactionHandler) handleSearchManga(s *discordgo.Session, m *discordgo.MessageReactionAdd, c model.Command) {
 	switch m.Emoji.Name {
-	case arrowStart:
+	case constant.ReactionArrowStart:
 		if c.Page == 1 {
 			return
 		}
 		c.Page = 1
-	case arrowLeft:
+	case constant.ReactionArrowLeft:
 		if c.Page == 1 {
 			return
 		}
 		c.Page--
-	case arrowRight:
+	case constant.ReactionArrowRight:
 		if c.Page == c.LastPage {
 			return
 		}
 		c.Page++
-	case arrowEnd:
+	case constant.ReactionArrowEnd:
 		if c.Page == c.LastPage {
 			return
 		}
@@ -150,40 +154,39 @@ func (h *reactionHandler) handleSearchManga(s *discordgo.Session, m *discordgo.M
 	}
 
 	// Send message.
-	_, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, getSearchTemplate(data, c.Page, manga, green, cnt))
-	if err != nil {
+	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetSearch(data, c.Page, constant.TypeManga, cnt)); err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(getRedisKey(m.MessageID), cacheModel{
+	if err = h.cache.Set(model.Command{
 		Commands: c.Commands,
 		Page:     c.Page,
-		LastPage: (cnt / dataPerPage) + 1,
-	}); err != nil {
+		LastPage: (cnt / constant.DataPerPage) + 1,
+	}, "msg", m.MessageID); err != nil {
 		log.Println(err)
 	}
 }
 
-func (h *reactionHandler) handleSearchCharacter(s *discordgo.Session, m *discordgo.MessageReactionAdd, c cacheModel) {
+func (h *ReactionHandler) handleSearchCharacter(s *discordgo.Session, m *discordgo.MessageReactionAdd, c model.Command) {
 	switch m.Emoji.Name {
-	case arrowStart:
+	case constant.ReactionArrowStart:
 		if c.Page == 1 {
 			return
 		}
 		c.Page = 1
-	case arrowLeft:
+	case constant.ReactionArrowLeft:
 		if c.Page == 1 {
 			return
 		}
 		c.Page--
-	case arrowRight:
+	case constant.ReactionArrowRight:
 		if c.Page == c.LastPage {
 			return
 		}
 		c.Page++
-	case arrowEnd:
+	case constant.ReactionArrowEnd:
 		if c.Page == c.LastPage {
 			return
 		}
@@ -200,40 +203,39 @@ func (h *reactionHandler) handleSearchCharacter(s *discordgo.Session, m *discord
 	}
 
 	// Send message.
-	_, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, getSearchTemplate(data, c.Page, character, orange, cnt))
-	if err != nil {
+	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetSearch(data, c.Page, constant.TypeCharacter, cnt)); err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(getRedisKey(m.MessageID), cacheModel{
+	if err = h.cache.Set(model.Command{
 		Commands: c.Commands,
 		Page:     c.Page,
-		LastPage: (cnt / dataPerPage) + 1,
-	}); err != nil {
+		LastPage: (cnt / constant.DataPerPage) + 1,
+	}, "msg", m.MessageID); err != nil {
 		log.Println(err)
 	}
 }
 
-func (h *reactionHandler) handleSearchPeople(s *discordgo.Session, m *discordgo.MessageReactionAdd, c cacheModel) {
+func (h *ReactionHandler) handleSearchPeople(s *discordgo.Session, m *discordgo.MessageReactionAdd, c model.Command) {
 	switch m.Emoji.Name {
-	case arrowStart:
+	case constant.ReactionArrowStart:
 		if c.Page == 1 {
 			return
 		}
 		c.Page = 1
-	case arrowLeft:
+	case constant.ReactionArrowLeft:
 		if c.Page == 1 {
 			return
 		}
 		c.Page--
-	case arrowRight:
+	case constant.ReactionArrowRight:
 		if c.Page == c.LastPage {
 			return
 		}
 		c.Page++
-	case arrowEnd:
+	case constant.ReactionArrowEnd:
 		if c.Page == c.LastPage {
 			return
 		}
@@ -250,24 +252,23 @@ func (h *reactionHandler) handleSearchPeople(s *discordgo.Session, m *discordgo.
 	}
 
 	// Send message.
-	_, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, getSearchTemplate(data, c.Page, people, purple, cnt))
-	if err != nil {
+	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetSearch(data, c.Page, constant.TypePeople, cnt)); err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(getRedisKey(m.MessageID), cacheModel{
+	if err = h.cache.Set(model.Command{
 		Commands: c.Commands,
 		Page:     c.Page,
-		LastPage: (cnt / dataPerPage) + 1,
-	}); err != nil {
+		LastPage: (cnt / constant.DataPerPage) + 1,
+	}, "msg", m.MessageID); err != nil {
 		log.Println(err)
 	}
 }
 
-func (h *reactionHandler) handleGetAnime(s *discordgo.Session, m *discordgo.MessageReactionAdd, c cacheModel) {
-	if m.Emoji.Name != info {
+func (h *ReactionHandler) handleGetAnime(s *discordgo.Session, m *discordgo.MessageReactionAdd, c model.Command) {
+	if m.Emoji.Name != constant.ReactionInfo {
 		return
 	}
 
@@ -275,29 +276,29 @@ func (h *reactionHandler) handleGetAnime(s *discordgo.Session, m *discordgo.Mess
 
 	// Get data.
 	id, _ := strconv.Atoi(c.Commands[1])
-	data, _, err := h.api.GetAnime(id)
+	data, err := h.api.GetAnime(id)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Send message.
-	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, getAnimeTemplate(data, h.linkHost, c.Info)); err != nil {
+	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetAnime(data, c.Info)); err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(getRedisKey(m.MessageID), cacheModel{
+	if err = h.cache.Set(model.Command{
 		Commands: c.Commands,
 		Info:     c.Info,
-	}); err != nil {
+	}, "msg", m.MessageID); err != nil {
 		log.Println(err)
 	}
 }
 
-func (h *reactionHandler) handleGetManga(s *discordgo.Session, m *discordgo.MessageReactionAdd, c cacheModel) {
-	if m.Emoji.Name != info {
+func (h *ReactionHandler) handleGetManga(s *discordgo.Session, m *discordgo.MessageReactionAdd, c model.Command) {
+	if m.Emoji.Name != constant.ReactionInfo {
 		return
 	}
 
@@ -305,29 +306,29 @@ func (h *reactionHandler) handleGetManga(s *discordgo.Session, m *discordgo.Mess
 
 	// Get data.
 	id, _ := strconv.Atoi(c.Commands[1])
-	data, _, err := h.api.GetManga(id)
+	data, err := h.api.GetManga(id)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Send message.
-	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, getMangaTemplate(data, h.linkHost, c.Info)); err != nil {
+	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetManga(data, c.Info)); err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(getRedisKey(m.MessageID), cacheModel{
+	if err = h.cache.Set(model.Command{
 		Commands: c.Commands,
 		Info:     c.Info,
-	}); err != nil {
+	}, "msg", m.MessageID); err != nil {
 		log.Println(err)
 	}
 }
 
-func (h *reactionHandler) handleGetCharacter(s *discordgo.Session, m *discordgo.MessageReactionAdd, c cacheModel) {
-	if m.Emoji.Name != info {
+func (h *ReactionHandler) handleGetCharacter(s *discordgo.Session, m *discordgo.MessageReactionAdd, c model.Command) {
+	if m.Emoji.Name != constant.ReactionInfo {
 		return
 	}
 
@@ -335,29 +336,29 @@ func (h *reactionHandler) handleGetCharacter(s *discordgo.Session, m *discordgo.
 
 	// Get data.
 	id, _ := strconv.Atoi(c.Commands[1])
-	data, _, err := h.api.GetCharacter(id)
+	data, err := h.api.GetCharacter(id)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Send message.
-	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, getCharacterTemplate(data, h.linkHost, c.Info)); err != nil {
+	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetCharacter(data, c.Info)); err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(getRedisKey(m.MessageID), cacheModel{
+	if err = h.cache.Set(model.Command{
 		Commands: c.Commands,
 		Info:     c.Info,
-	}); err != nil {
+	}, "msg", m.MessageID); err != nil {
 		log.Println(err)
 	}
 }
 
-func (h *reactionHandler) handleGetPeople(s *discordgo.Session, m *discordgo.MessageReactionAdd, c cacheModel) {
-	if m.Emoji.Name != info {
+func (h *ReactionHandler) handleGetPeople(s *discordgo.Session, m *discordgo.MessageReactionAdd, c model.Command) {
+	if m.Emoji.Name != constant.ReactionInfo {
 		return
 	}
 
@@ -365,23 +366,23 @@ func (h *reactionHandler) handleGetPeople(s *discordgo.Session, m *discordgo.Mes
 
 	// Get data.
 	id, _ := strconv.Atoi(c.Commands[1])
-	data, _, err := h.api.GetPeople(id)
+	data, err := h.api.GetPeople(id)
 	if err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Send message.
-	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, getPeopleTemplate(data, h.linkHost, c.Info)); err != nil {
+	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetPeople(data, c.Info)); err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(getRedisKey(m.MessageID), cacheModel{
+	if err = h.cache.Set(model.Command{
 		Commands: c.Commands,
 		Info:     c.Info,
-	}); err != nil {
+	}, "msg", m.MessageID); err != nil {
 		log.Println(err)
 	}
 }

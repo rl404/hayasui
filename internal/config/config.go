@@ -1,19 +1,21 @@
-package internal
+package config
 
 import (
 	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
+	"github.com/rl404/hayasui/internal/errors"
 )
 
-type config struct {
+// Config is config for hayasui.
+type Config struct {
 	// Discord token.
 	Token string `envconfig:"TOKEN"`
 	// Discord command prefix.
 	Prefix string `envconfig:"PREFIX" default:">"`
 	// API host.
-	ApiHost string `envconfig:"API_HOST"`
+	APIHost string `envconfig:"API_HOST"`
 	// Link to entry page.
-	LinkHost string `envconfig:"LINK_HOST"`
+	LinkHost string `envconfig:"LINK_HOST" default:"https://myanimelist.net"`
 	// Redis config.
 	Redis redisConfig `envconfig:"REDIS"`
 }
@@ -31,7 +33,7 @@ const envPath = "../../.env"
 const envPrefix = "HYS"
 
 // GetConfig to read and parse env.
-func GetConfig() (cfg config, err error) {
+func GetConfig() (cfg Config, err error) {
 	// Load .env file if exists.
 	godotenv.Load(envPath)
 
@@ -42,23 +44,23 @@ func GetConfig() (cfg config, err error) {
 
 	// Validate config.
 	if cfg.Token == "" {
-		return cfg, errRequiredToken
+		return cfg, errors.ErrRequiredToken
 	}
 
 	if cfg.Prefix == "" {
-		return cfg, errRequiredPrefix
+		return cfg, errors.ErrRequiredPrefix
 	}
 
-	if cfg.ApiHost == "" {
-		return cfg, errRequiredAPI
+	if cfg.APIHost == "" {
+		return cfg, errors.ErrRequiredAPI
 	}
 
 	if cfg.Redis.Address == "" {
-		return cfg, errRequiredRedis
+		return cfg, errors.ErrRequiredRedis
 	}
 
 	if cfg.Redis.Time <= 0 {
-		return cfg, errInvalidCacheTime
+		return cfg, errors.ErrInvalidCacheTime
 	}
 
 	return cfg, nil

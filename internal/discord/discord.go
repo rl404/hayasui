@@ -1,6 +1,8 @@
-package internal
+package discord
 
-import "github.com/bwmarrin/discordgo"
+import (
+	"github.com/bwmarrin/discordgo"
+)
 
 // Discord contains all basic discord function.
 type Discord interface {
@@ -14,8 +16,8 @@ type discord struct {
 	client *discordgo.Session
 }
 
-// NewDiscord to create new discord client.
-func NewDiscord(token string) (Discord, error) {
+// New to create new discord client.
+func New(token string) (Discord, error) {
 	client, err := discordgo.New("Bot " + token)
 	if err != nil {
 		return nil, err
