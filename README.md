@@ -1,6 +1,8 @@
 # Hayasui
 
-Hayasui is discord bot to search and provide you anime/manga/character/people data.
+Hayasui is a discord bot to search and provide you anime/manga/character/people data with interactive response message.
+
+[Hayasui](https://en.wikipedia.org/wiki/Japanese_fleet_oiler_Hayasui)'s name is taken from a japanese fleet oiler which support and resupply fuel, ammo, and food for other ships. Also, [exists](https://kancolle.fandom.com/wiki/Hayasui) in Kantai Collection games and anime. To live up its name, this bot will 'supply' you with anime, manga, character, and people information.
 
 ## Features
 
@@ -84,10 +86,6 @@ Hayasui is discord bot to search and provide you anime/manga/character/people da
 # example
 >people 1
 ```
-
-## Trivia
-
-[Hayasui](https://en.wikipedia.org/wiki/Japanese_fleet_oiler_Hayasui)'s name is taken from a japanese fleet oiler which support and resupply fuel, ammo, and food for other ships. Also, [exists](https://kancolle.fandom.com/wiki/Hayasui) in Kantai Collection games and anime.
 
 ## License
 
