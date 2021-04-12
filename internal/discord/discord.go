@@ -6,6 +6,7 @@ import (
 
 // Discord contains all basic discord function.
 type Discord interface {
+	AddReadyHandler(func(*discordgo.Session, *discordgo.Ready))
 	AddMessageHandler(func(*discordgo.Session, *discordgo.MessageCreate))
 	AddReactionHandler(func(*discordgo.Session, *discordgo.MessageReactionAdd))
 	Run() error
@@ -25,6 +26,11 @@ func New(token string) (Discord, error) {
 	return &discord{
 		client: client,
 	}, nil
+}
+
+// AddReadyHandler to add ready handler.
+func (d *discord) AddReadyHandler(handler func(*discordgo.Session, *discordgo.Ready)) {
+	d.client.AddHandler(handler)
 }
 
 // AddMessageHandler to add message handler.

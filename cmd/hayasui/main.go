@@ -63,12 +63,14 @@ func bot() error {
 	defer d.Close()
 
 	// Init handler.
-	mh := handler.NewMessageHandler(service, redis, cfg.Prefix, cfg.LinkHost)
-	rh := handler.NewReactionHandler(service, redis, cfg.LinkHost)
+	ready := handler.NewReadyHandler(cfg.Prefix)
+	msg := handler.NewMessageHandler(service, redis, cfg.Prefix, cfg.LinkHost)
+	reaction := handler.NewReactionHandler(service, redis, cfg.LinkHost)
 
 	// Add handler.
-	d.AddMessageHandler(mh.Handler())
-	d.AddReactionHandler(rh.Handler())
+	d.AddReadyHandler(ready.Handler())
+	d.AddMessageHandler(msg.Handler())
+	d.AddReactionHandler(reaction.Handler())
 
 	// Run bot.
 	if err = d.Run(); err != nil {
