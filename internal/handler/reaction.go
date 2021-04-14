@@ -93,6 +93,11 @@ func (h *ReactionHandler) handleSearchAnime(s *discordgo.Session, m *discordgo.M
 			return
 		}
 		c.Page = c.LastPage
+	case constant.ReactionInfo:
+		c.Type++
+		if c.Type > 2 {
+			c.Type = 0
+		}
 	default:
 		return
 	}
@@ -104,18 +109,22 @@ func (h *ReactionHandler) handleSearchAnime(s *discordgo.Session, m *discordgo.M
 		return
 	}
 
+	// Command model.
+	c = model.Command{
+		Commands: c.Commands,
+		Page:     c.Page,
+		LastPage: (cnt / constant.DataPerPage) + 1,
+		Type:     c.Type,
+	}
+
 	// Send message.
-	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetSearch(data, c.Page, constant.TypeAnime, cnt)); err != nil {
+	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetSearchAnime(data, c)); err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(model.Command{
-		Commands: c.Commands,
-		Page:     c.Page,
-		LastPage: (cnt / constant.DataPerPage) + 1,
-	}, "msg", m.MessageID); err != nil {
+	if err = h.cache.Set(c, "msg", m.MessageID); err != nil {
 		log.Println(err)
 	}
 }
@@ -142,6 +151,11 @@ func (h *ReactionHandler) handleSearchManga(s *discordgo.Session, m *discordgo.M
 			return
 		}
 		c.Page = c.LastPage
+	case constant.ReactionInfo:
+		c.Type++
+		if c.Type > 2 {
+			c.Type = 0
+		}
 	default:
 		return
 	}
@@ -153,18 +167,22 @@ func (h *ReactionHandler) handleSearchManga(s *discordgo.Session, m *discordgo.M
 		return
 	}
 
+	// Command model.
+	c = model.Command{
+		Commands: c.Commands,
+		Page:     c.Page,
+		LastPage: (cnt / constant.DataPerPage) + 1,
+		Type:     c.Type,
+	}
+
 	// Send message.
-	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetSearch(data, c.Page, constant.TypeManga, cnt)); err != nil {
+	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetSearchManga(data, c)); err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(model.Command{
-		Commands: c.Commands,
-		Page:     c.Page,
-		LastPage: (cnt / constant.DataPerPage) + 1,
-	}, "msg", m.MessageID); err != nil {
+	if err = h.cache.Set(c, "msg", m.MessageID); err != nil {
 		log.Println(err)
 	}
 }
@@ -202,18 +220,21 @@ func (h *ReactionHandler) handleSearchCharacter(s *discordgo.Session, m *discord
 		return
 	}
 
+	// Command model.
+	c = model.Command{
+		Commands: c.Commands,
+		Page:     c.Page,
+		LastPage: (cnt / constant.DataPerPage) + 1,
+	}
+
 	// Send message.
-	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetSearch(data, c.Page, constant.TypeCharacter, cnt)); err != nil {
+	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetSearchCharacter(data, c)); err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(model.Command{
-		Commands: c.Commands,
-		Page:     c.Page,
-		LastPage: (cnt / constant.DataPerPage) + 1,
-	}, "msg", m.MessageID); err != nil {
+	if err = h.cache.Set(c, "msg", m.MessageID); err != nil {
 		log.Println(err)
 	}
 }
@@ -251,18 +272,22 @@ func (h *ReactionHandler) handleSearchPeople(s *discordgo.Session, m *discordgo.
 		return
 	}
 
+	// Command model.
+	c = model.Command{
+		Commands: c.Commands,
+		Page:     c.Page,
+		LastPage: (cnt / constant.DataPerPage) + 1,
+		Type:     c.Type,
+	}
+
 	// Send message.
-	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetSearch(data, c.Page, constant.TypePeople, cnt)); err != nil {
+	if _, err = s.ChannelMessageEditEmbed(m.ChannelID, m.MessageID, h.template.GetSearchPeople(data, c)); err != nil {
 		log.Println(err)
 		return
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(model.Command{
-		Commands: c.Commands,
-		Page:     c.Page,
-		LastPage: (cnt / constant.DataPerPage) + 1,
-	}, "msg", m.MessageID); err != nil {
+	if err = h.cache.Set(c, "msg", m.MessageID); err != nil {
 		log.Println(err)
 	}
 }

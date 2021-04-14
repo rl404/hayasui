@@ -6,6 +6,7 @@ type Command struct {
 	Page     int      `json:"page"`
 	LastPage int      `json:"lastPage"`
 	Info     bool     `json:"info"`
+	Type     int      `json:"type"`
 }
 
 // Response is base api response model.
@@ -34,17 +35,30 @@ type Date struct {
 	Day   int `json:"day"`
 }
 
-// ResponseSearch is api search response model.
-type ResponseSearch struct {
+// ResponseSearchAnimeManga is api anime & manga search response model.
+type ResponseSearchAnimeManga struct {
 	Response
-	Data []DataSearch `json:"data"`
+	Data []DataSearchAnimeManga `json:"data"`
 }
 
-// DataSearch is api search response data model.
-type DataSearch struct {
-	ID    int    `json:"id"`
-	Title string `json:"title"` // Anime & manga.
-	Name  string `json:"name"`  // Character & people.
+// DataSearchAnimeManga is api anime & manga search response data model.
+type DataSearchAnimeManga struct {
+	ID    int     `json:"id"`
+	Title string  `json:"title"`
+	Type  int     `json:"type"`
+	Score float64 `json:"score"`
+}
+
+// ResponseSearchCharPeople is api character & people search response model.
+type ResponseSearchCharPeople struct {
+	Response
+	Data []DataSearchCharPeople `json:"data"`
+}
+
+// DataSearchCharPeople is api character & people search response data model.
+type DataSearchCharPeople struct {
+	ID   int    `json:"id"`
+	Name string `json:"name"`
 }
 
 // ResponseAnimeManga is api anime & manga response model.

@@ -21,8 +21,8 @@ func New(host string) api.API {
 }
 
 // SearchAnime to search anime.
-func (h *http) SearchAnime(query string, page int) (m []model.DataSearch, cnt int, err error) {
-	var res model.ResponseSearch
+func (h *http) SearchAnime(query string, page int) (m []model.DataSearchAnimeManga, cnt int, err error) {
+	var res model.ResponseSearchAnimeManga
 	url := fmt.Sprintf("/search/anime?title=%s&page=%v&limit=%v", url.QueryEscape(query), page, constant.DataPerPage)
 	if _, err := h.http.Get(url, &res); err != nil {
 		return nil, 0, err
@@ -31,8 +31,8 @@ func (h *http) SearchAnime(query string, page int) (m []model.DataSearch, cnt in
 }
 
 // SearchManga to search manga.
-func (h *http) SearchManga(query string, page int) ([]model.DataSearch, int, error) {
-	var res model.ResponseSearch
+func (h *http) SearchManga(query string, page int) ([]model.DataSearchAnimeManga, int, error) {
+	var res model.ResponseSearchAnimeManga
 	url := fmt.Sprintf("/search/manga?title=%s&page=%v&limit=%v", url.QueryEscape(query), page, constant.DataPerPage)
 	if _, err := h.http.Get(url, &res); err != nil {
 		return nil, 0, err
@@ -41,8 +41,8 @@ func (h *http) SearchManga(query string, page int) ([]model.DataSearch, int, err
 }
 
 // SearchCharacter to search character.
-func (h *http) SearchCharacter(query string, page int) ([]model.DataSearch, int, error) {
-	var res model.ResponseSearch
+func (h *http) SearchCharacter(query string, page int) ([]model.DataSearchCharPeople, int, error) {
+	var res model.ResponseSearchCharPeople
 	url := fmt.Sprintf("/search/character?name=%s&page=%v&limit=%v", url.QueryEscape(query), page, constant.DataPerPage)
 	if _, err := h.http.Get(url, &res); err != nil {
 		return nil, 0, err
@@ -51,8 +51,8 @@ func (h *http) SearchCharacter(query string, page int) ([]model.DataSearch, int,
 }
 
 // SearchPeople to search people.
-func (h *http) SearchPeople(query string, page int) ([]model.DataSearch, int, error) {
-	var res model.ResponseSearch
+func (h *http) SearchPeople(query string, page int) ([]model.DataSearchCharPeople, int, error) {
+	var res model.ResponseSearchCharPeople
 	url := fmt.Sprintf("/search/people?name=%s&page=%v&limit=%v", url.QueryEscape(query), page, constant.DataPerPage)
 	if _, err := h.http.Get(url, &res); err != nil {
 		return nil, 0, err

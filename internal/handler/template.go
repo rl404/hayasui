@@ -14,7 +14,10 @@ import (
 // Templater contains function to prepare message template.
 type Templater interface {
 	GetHelp() *discordgo.MessageEmbed
-	GetSearch(data []model.DataSearch, page int, _type string, count int) *discordgo.MessageEmbed
+	GetSearchAnime(data []model.DataSearchAnimeManga, cmd model.Command) *discordgo.MessageEmbed
+	GetSearchManga(data []model.DataSearchAnimeManga, cmd model.Command) *discordgo.MessageEmbed
+	GetSearchCharacter(data []model.DataSearchCharPeople, cmd model.Command) *discordgo.MessageEmbed
+	GetSearchPeople(data []model.DataSearchCharPeople, cmd model.Command) *discordgo.MessageEmbed
 	GetAnime(data *model.DataAnimeManga, info bool) *discordgo.MessageEmbed
 	GetManga(data *model.DataAnimeManga, info bool) *discordgo.MessageEmbed
 	GetCharacter(data *model.DataCharPeople, info bool) *discordgo.MessageEmbed
@@ -38,18 +41,20 @@ var color = map[string]int{
 	constant.TypePeople:    constant.ColorPurple,
 }
 
-func (t *template) getTableHeader() string {
-	return fmt.Sprintf("%s | %s\n%s | %s",
-		utils.PadRight("ID", 6, " "),
-		utils.PadRight("Name", 45, " "),
-		utils.PadRight("", 6, "-"),
-		utils.PadRight("", 45, "-"))
+func (t *template) getTableHeader(titles []string, len []int) (str string) {
+	var dash []string
+	for i := range titles {
+		titles[i] = utils.PadRight(titles[i], len[i], " ")
+		dash = append(dash, utils.PadRight("", len[i], "-"))
+	}
+	return fmt.Sprintf("%s\n%s", strings.Join(titles, " | "), strings.Join(dash, " | "))
 }
 
-func (t *template) getTableBody(id int, name string) string {
-	return fmt.Sprintf("%s | %s",
-		utils.PadRight(strconv.Itoa(id), 6, " "),
-		utils.PadRight(utils.Ellipsis(name, 45), 45, " "))
+func (t *template) getTableRow(data []string, len []int) (str string) {
+	for i := range data {
+		data[i] = utils.PadRight(data[i], len[i], " ")
+	}
+	return strings.Join(data, " | ")
 }
 
 // GetHelp to get help message template.
@@ -83,29 +88,120 @@ func (t *template) GetHelp() *discordgo.MessageEmbed {
 	}
 }
 
-// GetSearch to get search result message template.
-func (t *template) GetSearch(data []model.DataSearch, page int, _type string, cnt int) *discordgo.MessageEmbed {
+// GetSearchAnime to get anime search result message template.
+func (t *template) GetSearchAnime(data []model.DataSearchAnimeManga, cmd model.Command) *discordgo.MessageEmbed {
 	body := "```"
-	if len(data) > 0 {
-		body += t.getTableHeader() + "\n"
-		for _, d := range data {
-			if _type == constant.TypeAnime || _type == constant.TypeManga {
-				body += t.getTableBody(d.ID, d.Title) + "\n"
-			} else {
-				body += t.getTableBody(d.ID, d.Name) + "\n"
+	if len(data) == 0 {
+		body += "No result."
+	} else {
+		switch cmd.Type {
+		case 0:
+			body += t.getTableHeader([]string{"ID", "Title"}, []int{6, 45}) + "\n"
+			for _, d := range data {
+				body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Title, 45)}, []int{6, 45}) + "\n"
+			}
+		case 1:
+			body += t.getTableHeader([]string{"ID", "Title", "Type"}, []int{6, 35, 7}) + "\n"
+			for _, d := range data {
+				body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Title, 35), constant.AnimeTypes[d.Type]}, []int{6, 35, 7}) + "\n"
+			}
+		case 2:
+			body += t.getTableHeader([]string{"ID", "Title", "Type", "Score"}, []int{6, 29, 7, 5}) + "\n"
+			for _, d := range data {
+				body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Title, 29), constant.AnimeTypes[d.Type], fmt.Sprintf("%.2f", d.Score)}, []int{6, 29, 7, 5}) + "\n"
 			}
 		}
-	} else {
-		body += "No result."
 	}
 	body += "```"
 
 	return &discordgo.MessageEmbed{
-		Title:       strings.Title(_type) + " Search Results",
-		Color:       color[_type],
+		Title:       "Anime Search Results",
+		Color:       color[constant.TypeAnime],
 		Description: body,
 		Footer: &discordgo.MessageEmbedFooter{
-			Text: fmt.Sprintf("page: %v / %v", page, (cnt/constant.DataPerPage)+1),
+			Text: fmt.Sprintf("page: %v / %v", cmd.Page, cmd.LastPage),
+		},
+	}
+}
+
+// GetSearchManga to get manga search result message template.
+func (t *template) GetSearchManga(data []model.DataSearchAnimeManga, cmd model.Command) *discordgo.MessageEmbed {
+	body := "```"
+	if len(data) == 0 {
+		body += "No result."
+	} else {
+		switch cmd.Type {
+		case 0:
+			body += t.getTableHeader([]string{"ID", "Title"}, []int{6, 45}) + "\n"
+			for _, d := range data {
+				body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Title, 45)}, []int{6, 45}) + "\n"
+			}
+		case 1:
+			body += t.getTableHeader([]string{"ID", "Title", "Type"}, []int{6, 35, 7}) + "\n"
+			for _, d := range data {
+				body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Title, 35), constant.MangaTypesShort[d.Type]}, []int{6, 35, 7}) + "\n"
+			}
+		case 2:
+			body += t.getTableHeader([]string{"ID", "Title", "Type", "Score"}, []int{6, 29, 7, 5}) + "\n"
+			for _, d := range data {
+				body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Title, 29), constant.MangaTypesShort[d.Type], fmt.Sprintf("%.2f", d.Score)}, []int{6, 29, 7, 5}) + "\n"
+			}
+		}
+	}
+	body += "```"
+
+	return &discordgo.MessageEmbed{
+		Title:       "Manga Search Results",
+		Color:       color[constant.TypeManga],
+		Description: body,
+		Footer: &discordgo.MessageEmbedFooter{
+			Text: fmt.Sprintf("page: %v / %v", cmd.Page, cmd.LastPage),
+		},
+	}
+}
+
+// GetSearchCharacter to get character search result message template.
+func (t *template) GetSearchCharacter(data []model.DataSearchCharPeople, cmd model.Command) *discordgo.MessageEmbed {
+	body := "```"
+	if len(data) == 0 {
+		body += "No result."
+	} else {
+		body += t.getTableHeader([]string{"ID", "Name"}, []int{6, 45}) + "\n"
+		for _, d := range data {
+			body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Name, 45)}, []int{6, 45}) + "\n"
+		}
+	}
+	body += "```"
+
+	return &discordgo.MessageEmbed{
+		Title:       "Character Search Results",
+		Color:       color[constant.TypeCharacter],
+		Description: body,
+		Footer: &discordgo.MessageEmbedFooter{
+			Text: fmt.Sprintf("page: %v / %v", cmd.Page, cmd.LastPage),
+		},
+	}
+}
+
+// GetSearchPeople to get people search result message template.
+func (t *template) GetSearchPeople(data []model.DataSearchCharPeople, cmd model.Command) *discordgo.MessageEmbed {
+	body := "```"
+	if len(data) == 0 {
+		body += "No result."
+	} else {
+		body += t.getTableHeader([]string{"ID", "Name"}, []int{6, 45}) + "\n"
+		for _, d := range data {
+			body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Name, 45)}, []int{6, 45}) + "\n"
+		}
+	}
+	body += "```"
+
+	return &discordgo.MessageEmbed{
+		Title:       "People Search Results",
+		Color:       color[constant.TypePeople],
+		Description: body,
+		Footer: &discordgo.MessageEmbedFooter{
+			Text: fmt.Sprintf("page: %v / %v", cmd.Page, cmd.LastPage),
 		},
 	}
 }

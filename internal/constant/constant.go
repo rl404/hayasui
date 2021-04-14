@@ -34,6 +34,15 @@ var ReactionPagination = []string{
 	ReactionArrowEnd,
 }
 
+// ReactionPaginationWithInfo is reaction list for pagination with info.
+var ReactionPaginationWithInfo = []string{
+	ReactionArrowStart,
+	ReactionArrowLeft,
+	ReactionInfo,
+	ReactionArrowRight,
+	ReactionArrowEnd,
+}
+
 // Message response.
 const (
 	MsgInvalid       = "Invalid command. See **>help** for more information."
@@ -73,6 +82,17 @@ var MangaTypes = map[int]string{
 	2: "Light Novel",
 	3: "One-shot",
 	4: "Doujinshi",
+	5: "Manhwa",
+	6: "Manhua",
+	7: "OEL",
+	8: "Novel",
+}
+
+var MangaTypesShort = map[int]string{
+	1: "Manga",
+	2: "LN",
+	3: "Oneshot",
+	4: "Doujin",
 	5: "Manhwa",
 	6: "Manhua",
 	7: "OEL",

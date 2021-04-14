@@ -18,18 +18,19 @@ func Repeat(str string, n int) string {
 
 // PadLeft to pad string to the left.
 func PadLeft(str string, l int, p string) string {
-	return Repeat(p, l-len(str)) + str
+	return Repeat(p, l-len([]rune(str))) + str
 }
 
 // PadRight to pad string to the right.
 func PadRight(str string, l int, p string) string {
-	return str + Repeat(p, l-len(str))
+	return str + Repeat(p, l-len([]rune(str)))
 }
 
 // Ellipsis to truncate string.
 func Ellipsis(str string, length int) string {
-	if len(str) > length {
-		return str[:length-3] + "..."
+	r := []rune(str)
+	if len(r) > length {
+		return string(r[:length-3]) + "..."
 	}
 	return str
 }

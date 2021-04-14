@@ -143,8 +143,16 @@ func (h *MessageHandler) handleSearchAnime(s *discordgo.Session, m *discordgo.Me
 		return
 	}
 
+	// Command model.
+	cmd := model.Command{
+		Commands: args,
+		Page:     1,
+		LastPage: (cnt / constant.DataPerPage) + 1,
+		Type:     0,
+	}
+
 	// Send message.
-	msg, err := s.ChannelMessageSendEmbed(m.ChannelID, h.template.GetSearch(data, 1, constant.TypeAnime, cnt))
+	msg, err := s.ChannelMessageSendEmbed(m.ChannelID, h.template.GetSearchAnime(data, cmd))
 	if err != nil {
 		log.Println(err)
 		return
@@ -152,7 +160,7 @@ func (h *MessageHandler) handleSearchAnime(s *discordgo.Session, m *discordgo.Me
 
 	// Add pagination reaction.
 	if cnt > len(data) {
-		for _, r := range constant.ReactionPagination {
+		for _, r := range constant.ReactionPaginationWithInfo {
 			if err = s.MessageReactionAdd(m.ChannelID, msg.ID, r); err != nil {
 				log.Println(err)
 			}
@@ -160,11 +168,7 @@ func (h *MessageHandler) handleSearchAnime(s *discordgo.Session, m *discordgo.Me
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(model.Command{
-		Commands: args,
-		Page:     1,
-		LastPage: (cnt / constant.DataPerPage) + 1,
-	}, "msg", msg.ID); err != nil {
+	if err = h.cache.Set(cmd, "msg", msg.ID); err != nil {
 		log.Println(err)
 	}
 }
@@ -182,8 +186,16 @@ func (h *MessageHandler) handleSearchManga(s *discordgo.Session, m *discordgo.Me
 		return
 	}
 
+	// Command model.
+	cmd := model.Command{
+		Commands: args,
+		Page:     1,
+		LastPage: (cnt / constant.DataPerPage) + 1,
+		Type:     0,
+	}
+
 	// Send message.
-	msg, err := s.ChannelMessageSendEmbed(m.ChannelID, h.template.GetSearch(data, 1, constant.TypeManga, cnt))
+	msg, err := s.ChannelMessageSendEmbed(m.ChannelID, h.template.GetSearchManga(data, cmd))
 	if err != nil {
 		log.Println(err)
 		return
@@ -191,7 +203,7 @@ func (h *MessageHandler) handleSearchManga(s *discordgo.Session, m *discordgo.Me
 
 	// Add pagination reaction.
 	if cnt > len(data) {
-		for _, r := range constant.ReactionPagination {
+		for _, r := range constant.ReactionPaginationWithInfo {
 			if err = s.MessageReactionAdd(m.ChannelID, msg.ID, r); err != nil {
 				log.Println(err)
 			}
@@ -199,11 +211,7 @@ func (h *MessageHandler) handleSearchManga(s *discordgo.Session, m *discordgo.Me
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(model.Command{
-		Commands: args,
-		Page:     1,
-		LastPage: (cnt / constant.DataPerPage) + 1,
-	}, "msg", msg.ID); err != nil {
+	if err = h.cache.Set(cmd, "msg", msg.ID); err != nil {
 		log.Println(err)
 	}
 }
@@ -221,8 +229,15 @@ func (h *MessageHandler) handleSearchCharacter(s *discordgo.Session, m *discordg
 		return
 	}
 
+	// Command model.
+	cmd := model.Command{
+		Commands: args,
+		Page:     1,
+		LastPage: (cnt / constant.DataPerPage) + 1,
+	}
+
 	// Send message.
-	msg, err := s.ChannelMessageSendEmbed(m.ChannelID, h.template.GetSearch(data, 1, constant.TypeCharacter, cnt))
+	msg, err := s.ChannelMessageSendEmbed(m.ChannelID, h.template.GetSearchCharacter(data, cmd))
 	if err != nil {
 		log.Println(err)
 		return
@@ -238,11 +253,7 @@ func (h *MessageHandler) handleSearchCharacter(s *discordgo.Session, m *discordg
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(model.Command{
-		Commands: args,
-		Page:     1,
-		LastPage: (cnt / constant.DataPerPage) + 1,
-	}, "msg", msg.ID); err != nil {
+	if err = h.cache.Set(cmd, "msg", msg.ID); err != nil {
 		log.Println(err)
 	}
 }
@@ -260,8 +271,15 @@ func (h *MessageHandler) handleSearchPeople(s *discordgo.Session, m *discordgo.M
 		return
 	}
 
+	// Command model.
+	cmd := model.Command{
+		Commands: args,
+		Page:     1,
+		LastPage: (cnt / constant.DataPerPage) + 1,
+	}
+
 	// Send message.
-	msg, err := s.ChannelMessageSendEmbed(m.ChannelID, h.template.GetSearch(data, 1, constant.TypePeople, cnt))
+	msg, err := s.ChannelMessageSendEmbed(m.ChannelID, h.template.GetSearchPeople(data, cmd))
 	if err != nil {
 		log.Println(err)
 		return
@@ -277,11 +295,7 @@ func (h *MessageHandler) handleSearchPeople(s *discordgo.Session, m *discordgo.M
 	}
 
 	// Save to redis.
-	if err = h.cache.Set(model.Command{
-		Commands: args,
-		Page:     1,
-		LastPage: (cnt / constant.DataPerPage) + 1,
-	}, "msg", msg.ID); err != nil {
+	if err = h.cache.Set(cmd, "msg", msg.ID); err != nil {
 		log.Println(err)
 	}
 }

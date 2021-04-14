@@ -21,10 +21,10 @@ func New(c _cache.Cacher, a api.API) api.API {
 }
 
 // SearchAnime to search anime.
-func (c *cache) SearchAnime(query string, page int) ([]model.DataSearch, int, error) {
+func (c *cache) SearchAnime(query string, page int) ([]model.DataSearchAnimeManga, int, error) {
 	// Cache model.
 	var data struct {
-		Data []model.DataSearch
+		Data []model.DataSearchAnimeManga
 		Meta model.Meta
 	}
 
@@ -47,10 +47,10 @@ func (c *cache) SearchAnime(query string, page int) ([]model.DataSearch, int, er
 }
 
 // SearchManga to search manga.
-func (c *cache) SearchManga(query string, page int) ([]model.DataSearch, int, error) {
+func (c *cache) SearchManga(query string, page int) ([]model.DataSearchAnimeManga, int, error) {
 	// Cache model.
 	var data struct {
-		Data []model.DataSearch
+		Data []model.DataSearchAnimeManga
 		Meta model.Meta
 	}
 
@@ -73,10 +73,10 @@ func (c *cache) SearchManga(query string, page int) ([]model.DataSearch, int, er
 }
 
 // SearchCharacter to search character.
-func (c *cache) SearchCharacter(query string, page int) ([]model.DataSearch, int, error) {
+func (c *cache) SearchCharacter(query string, page int) ([]model.DataSearchCharPeople, int, error) {
 	// Cache model.
 	var data struct {
-		Data []model.DataSearch
+		Data []model.DataSearchCharPeople
 		Meta model.Meta
 	}
 
@@ -99,10 +99,10 @@ func (c *cache) SearchCharacter(query string, page int) ([]model.DataSearch, int
 }
 
 // SearchPeople to search people.
-func (c *cache) SearchPeople(query string, page int) ([]model.DataSearch, int, error) {
+func (c *cache) SearchPeople(query string, page int) ([]model.DataSearchCharPeople, int, error) {
 	// Cache model.
 	var data struct {
-		Data []model.DataSearch
+		Data []model.DataSearchCharPeople
 		Meta model.Meta
 	}
 
