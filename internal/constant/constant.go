@@ -19,8 +19,8 @@ const (
 
 // Emoticon reaction.
 const (
-	ReactionArrowLeft  = "⬅"
-	ReactionArrowRight = "➡"
+	ReactionArrowLeft  = "◀️"
+	ReactionArrowRight = "▶️"
 	ReactionArrowStart = "⏪"
 	ReactionArrowEnd   = "⏩"
 	ReactionInfo       = "ℹ️"
