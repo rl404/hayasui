@@ -13,6 +13,8 @@ Hayasui is a discord bot to search and provide you anime/manga/character/people 
 - Get people info.
 - Interactive response message (pagination supported).
 
+[Sample results](https://github.com/rl404/hayasui/blob/master/sample.md)
+
 ## Requirement
 
 - [Discord bot](https://discordpy.readthedocs.io/en/latest/discord.html) and its token
