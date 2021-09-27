@@ -258,12 +258,12 @@ func (t *template) GetAnime(data *model.DataAnimeManga, info bool) *discordgo.Me
 			},
 			{
 				Name:   "Type",
-				Value:  constant.MediaTypes[data.Type],
+				Value:  utils.EmptyCheck(constant.MediaTypes[data.Type]),
 				Inline: true,
 			},
 			{
 				Name:   "Status",
-				Value:  constant.MediaStatuses[data.Status],
+				Value:  utils.EmptyCheck(constant.MediaStatuses[data.Status]),
 				Inline: true,
 			},
 			{
@@ -341,12 +341,12 @@ func (t *template) GetManga(data *model.DataAnimeManga, info bool) *discordgo.Me
 			},
 			{
 				Name:   "Type",
-				Value:  constant.MediaTypes[data.Type],
+				Value:  utils.EmptyCheck(constant.MediaTypes[data.Type]),
 				Inline: true,
 			},
 			{
 				Name:   "Status",
-				Value:  constant.MediaStatuses[data.Status],
+				Value:  utils.EmptyCheck(constant.MediaStatuses[data.Status]),
 				Inline: true,
 			},
 			{
