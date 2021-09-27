@@ -110,3 +110,27 @@ func EmptyCheck(str string) string {
 	}
 	return str
 }
+
+// PtrToStr to convert string pointer to string.
+func PtrToStr(str *string) string {
+	if str == nil {
+		return ""
+	}
+	return *str
+}
+
+// PtrToInt to convert int pointer to int.
+func PtrToInt(i *int) int {
+	if i == nil {
+		return 0
+	}
+	return *i
+}
+
+// PtrToBool to convert bool pointer to bool.
+func PtrToBool(b *bool) bool {
+	if b == nil {
+		return false
+	}
+	return *b
+}

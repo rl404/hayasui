@@ -24,13 +24,13 @@ func New(c _cache.Cacher, a api.API) api.API {
 func (c *cache) SearchAnime(query string, page int) ([]model.DataSearchAnimeManga, int, error) {
 	// Cache model.
 	var data struct {
-		Data []model.DataSearchAnimeManga
-		Meta model.Meta
+		Data  []model.DataSearchAnimeManga
+		Count int
 	}
 
 	// Get from cache.
 	if c.cacher.Get(&data, "search", constant.TypeAnime, query, page) == nil {
-		return data.Data, data.Meta.Count, nil
+		return data.Data, data.Count, nil
 	}
 
 	// Call api.
@@ -40,7 +40,7 @@ func (c *cache) SearchAnime(query string, page int) ([]model.DataSearchAnimeMang
 	}
 
 	// Save to cache.
-	data.Data, data.Meta.Count = d, cnt
+	data.Data, data.Count = d, cnt
 	go c.cacher.Set(data, "search", constant.TypeAnime, query, page)
 
 	return d, cnt, nil
@@ -50,13 +50,13 @@ func (c *cache) SearchAnime(query string, page int) ([]model.DataSearchAnimeMang
 func (c *cache) SearchManga(query string, page int) ([]model.DataSearchAnimeManga, int, error) {
 	// Cache model.
 	var data struct {
-		Data []model.DataSearchAnimeManga
-		Meta model.Meta
+		Data  []model.DataSearchAnimeManga
+		Count int
 	}
 
 	// Get from cache.
 	if c.cacher.Get(&data, "search", constant.TypeManga, query, page) == nil {
-		return data.Data, data.Meta.Count, nil
+		return data.Data, data.Count, nil
 	}
 
 	// Call api.
@@ -66,7 +66,7 @@ func (c *cache) SearchManga(query string, page int) ([]model.DataSearchAnimeMang
 	}
 
 	// Save to cache.
-	data.Data, data.Meta.Count = d, cnt
+	data.Data, data.Count = d, cnt
 	go c.cacher.Set(data, "search", constant.TypeManga, query, page)
 
 	return d, cnt, nil
@@ -76,13 +76,13 @@ func (c *cache) SearchManga(query string, page int) ([]model.DataSearchAnimeMang
 func (c *cache) SearchCharacter(query string, page int) ([]model.DataSearchCharPeople, int, error) {
 	// Cache model.
 	var data struct {
-		Data []model.DataSearchCharPeople
-		Meta model.Meta
+		Data  []model.DataSearchCharPeople
+		Count int
 	}
 
 	// Get from cache.
 	if c.cacher.Get(&data, "search", constant.TypeCharacter, query, page) == nil {
-		return data.Data, data.Meta.Count, nil
+		return data.Data, data.Count, nil
 	}
 
 	// Call api.
@@ -92,7 +92,7 @@ func (c *cache) SearchCharacter(query string, page int) ([]model.DataSearchCharP
 	}
 
 	// Save to cache.
-	data.Data, data.Meta.Count = d, cnt
+	data.Data, data.Count = d, cnt
 	go c.cacher.Set(data, "search", constant.TypeCharacter, query, page)
 
 	return d, cnt, nil
@@ -102,13 +102,13 @@ func (c *cache) SearchCharacter(query string, page int) ([]model.DataSearchCharP
 func (c *cache) SearchPeople(query string, page int) ([]model.DataSearchCharPeople, int, error) {
 	// Cache model.
 	var data struct {
-		Data []model.DataSearchCharPeople
-		Meta model.Meta
+		Data  []model.DataSearchCharPeople
+		Count int
 	}
 
 	// Get from cache.
 	if c.cacher.Get(&data, "search", constant.TypePeople, query, page) == nil {
-		return data.Data, data.Meta.Count, nil
+		return data.Data, data.Count, nil
 	}
 
 	// Call api.
@@ -118,7 +118,7 @@ func (c *cache) SearchPeople(query string, page int) ([]model.DataSearchCharPeop
 	}
 
 	// Save to cache.
-	data.Data, data.Meta.Count = d, cnt
+	data.Data, data.Count = d, cnt
 	go c.cacher.Set(data, "search", constant.TypePeople, query, page)
 
 	return d, cnt, nil

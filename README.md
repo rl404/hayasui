@@ -29,7 +29,7 @@ Hayasui is a discord bot to search and provide you anime/manga/character/people 
     ```bash
     git clone github.com/rl404/hayasui
     ```
-2. Modify `.env` according to your configuration.
+2. Rename `sample.env` to `.env` and modify according to your configuration.
 3. Run.
     ```bash
     make bot
