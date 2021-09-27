@@ -9,24 +9,22 @@ import (
 // Config is config for hayasui.
 type Config struct {
 	// Discord token.
-	Token string `envconfig:"TOKEN"`
+	Token string `envconfig:"TOKEN" required:"true"`
 	// Discord command prefix.
-	Prefix string `envconfig:"PREFIX" default:">"`
-	// API host.
-	APIHost string `envconfig:"API_HOST"`
+	Prefix string `envconfig:"PREFIX" required:"true" default:">"`
 	// Link to entry page.
-	LinkHost string `envconfig:"LINK_HOST" default:"https://myanimelist.net"`
+	RedirectHost string `envconfig:"REDIRECT_HOST" required:"true" default:"https://anilist.co"`
 	// Redis config.
 	Redis redisConfig `envconfig:"REDIS"`
 }
 
 type redisConfig struct {
 	// Redis address with format `host:port`.
-	Address string `envconfig:"ADDRESS"`
+	Address string `envconfig:"ADDRESS" required:"true" default:"localhost:6379"`
 	// Redis password if exists.
 	Password string `envconfig:"PASSWORD"`
 	// Caching time duration (in seconds).
-	Time int `envconfig:"TIME" default:"86400"`
+	Time int `envconfig:"TIME" required:"true" default:"86400"`
 }
 
 const envPath = "../../.env"
@@ -40,23 +38,6 @@ func GetConfig() (cfg Config, err error) {
 	// Convert env to struct.
 	if err = envconfig.Process(envPrefix, &cfg); err != nil {
 		return cfg, err
-	}
-
-	// Validate config.
-	if cfg.Token == "" {
-		return cfg, errors.ErrRequiredToken
-	}
-
-	if cfg.Prefix == "" {
-		return cfg, errors.ErrRequiredPrefix
-	}
-
-	if cfg.APIHost == "" {
-		return cfg, errors.ErrRequiredAPI
-	}
-
-	if cfg.Redis.Address == "" {
-		return cfg, errors.ErrRequiredRedis
 	}
 
 	if cfg.Redis.Time <= 0 {

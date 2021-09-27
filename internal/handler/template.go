@@ -5,6 +5,7 @@ import (
 	"strconv"
 	"strings"
 
+	md "github.com/JohannesKaufmann/html-to-markdown"
 	"github.com/bwmarrin/discordgo"
 	"github.com/rl404/hayasui/internal/constant"
 	"github.com/rl404/hayasui/internal/model"
@@ -25,12 +26,14 @@ type Templater interface {
 }
 
 type template struct {
-	linkHost string
+	linkHost  string
+	converter *md.Converter
 }
 
 func newTemplate(linkHost string) Templater {
 	return &template{
-		linkHost: linkHost,
+		linkHost:  linkHost,
+		converter: md.NewConverter("", true, nil),
 	}
 }
 
@@ -103,12 +106,12 @@ func (t *template) GetSearchAnime(data []model.DataSearchAnimeManga, cmd model.C
 		case 1:
 			body += t.getTableHeader([]string{"ID", "Title", "Type"}, []int{6, 35, 7}) + "\n"
 			for _, d := range data {
-				body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Title, 35), constant.AnimeTypes[d.Type]}, []int{6, 35, 7}) + "\n"
+				body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Title, 35), constant.MediaTypes[d.Type]}, []int{6, 35, 7}) + "\n"
 			}
 		case 2:
 			body += t.getTableHeader([]string{"ID", "Title", "Type", "Score"}, []int{6, 29, 7, 5}) + "\n"
 			for _, d := range data {
-				body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Title, 29), constant.AnimeTypes[d.Type], fmt.Sprintf("%.2f", d.Score)}, []int{6, 29, 7, 5}) + "\n"
+				body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Title, 29), constant.MediaTypes[d.Type], strconv.Itoa(d.Score)}, []int{6, 29, 7, 5}) + "\n"
 			}
 		}
 	}
@@ -139,12 +142,12 @@ func (t *template) GetSearchManga(data []model.DataSearchAnimeManga, cmd model.C
 		case 1:
 			body += t.getTableHeader([]string{"ID", "Title", "Type"}, []int{6, 35, 7}) + "\n"
 			for _, d := range data {
-				body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Title, 35), constant.MangaTypesShort[d.Type]}, []int{6, 35, 7}) + "\n"
+				body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Title, 35), constant.MediaTypes[d.Type]}, []int{6, 35, 7}) + "\n"
 			}
 		case 2:
 			body += t.getTableHeader([]string{"ID", "Title", "Type", "Score"}, []int{6, 29, 7, 5}) + "\n"
 			for _, d := range data {
-				body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Title, 29), constant.MangaTypesShort[d.Type], fmt.Sprintf("%.2f", d.Score)}, []int{6, 29, 7, 5}) + "\n"
+				body += t.getTableRow([]string{strconv.Itoa(d.ID), utils.Ellipsis(d.Title, 29), constant.MediaTypes[d.Type], strconv.Itoa(d.Score)}, []int{6, 29, 7, 5}) + "\n"
 			}
 		}
 	}
@@ -209,13 +212,13 @@ func (t *template) GetSearchPeople(data []model.DataSearchCharPeople, cmd model.
 // GetAnime to get anime data message template.
 func (t *template) GetAnime(data *model.DataAnimeManga, info bool) *discordgo.MessageEmbed {
 	msg := &discordgo.MessageEmbed{
-		Title: data.Title,
+		Title: data.Title.Romaji,
 		URL:   utils.GenerateLink(t.linkHost, constant.TypeAnime, data.ID),
 		Color: constant.ColorBlue,
 	}
 
 	if !info {
-		msg.Description = utils.Ellipsis(utils.EmptyCheck(data.Synopsis), 500)
+		msg.Description = t.toMD(utils.Ellipsis(utils.EmptyCheck(data.Synopsis), 500))
 		msg.Thumbnail = &discordgo.MessageEmbedThumbnail{
 			URL: data.Image,
 		}
@@ -226,36 +229,21 @@ func (t *template) GetAnime(data *model.DataAnimeManga, info bool) *discordgo.Me
 		msg.Fields = []*discordgo.MessageEmbedField{
 			{
 				Name:   "English",
-				Value:  utils.EmptyCheck(data.AltTitles.English),
+				Value:  utils.EmptyCheck(data.Title.English),
 				Inline: true,
 			},
 			{
-				Name:   "Japanese",
-				Value:  utils.EmptyCheck(data.AltTitles.Japanese),
-				Inline: true,
-			},
-			{
-				Name:   "Synonym",
-				Value:  utils.EmptyCheck(data.AltTitles.Synonym),
+				Name:   "Native",
+				Value:  utils.EmptyCheck(data.Title.Native),
 				Inline: true,
 			},
 			{
 				Name:  "Synopsis",
-				Value: utils.Ellipsis(utils.EmptyCheck(data.Synopsis), 1000),
-			},
-			{
-				Name:   "Rank",
-				Value:  "#" + utils.Thousands(data.Rank),
-				Inline: true,
+				Value: t.toMD(utils.Ellipsis(utils.EmptyCheck(data.Synopsis), 1000)),
 			},
 			{
 				Name:   "Score",
-				Value:  fmt.Sprintf("%.2f", data.Score),
-				Inline: true,
-			},
-			{
-				Name:   "Poplarity",
-				Value:  "#" + utils.Thousands(data.Popularity),
+				Value:  strconv.Itoa(data.Score),
 				Inline: true,
 			},
 			{
@@ -270,12 +258,12 @@ func (t *template) GetAnime(data *model.DataAnimeManga, info bool) *discordgo.Me
 			},
 			{
 				Name:   "Type",
-				Value:  constant.AnimeTypes[data.Type],
+				Value:  constant.MediaTypes[data.Type],
 				Inline: true,
 			},
 			{
 				Name:   "Status",
-				Value:  constant.AnimeStatuses[data.Status],
+				Value:  constant.MediaStatuses[data.Status],
 				Inline: true,
 			},
 			{
@@ -284,8 +272,18 @@ func (t *template) GetAnime(data *model.DataAnimeManga, info bool) *discordgo.Me
 				Inline: true,
 			},
 			{
+				Name:   "Ranking",
+				Value:  utils.EmptyCheck(strings.Join(data.Rankings, "\n")),
+				Inline: true,
+			},
+			{
 				Name:   "Airing Start",
 				Value:  utils.DateToStr(data.Airing.Start),
+				Inline: true,
+			},
+			{
+				Name:   "Airing End",
+				Value:  utils.DateToStr(data.Airing.End),
 				Inline: true,
 			},
 		}
@@ -297,13 +295,13 @@ func (t *template) GetAnime(data *model.DataAnimeManga, info bool) *discordgo.Me
 // GetManga to get manga data message template.
 func (t *template) GetManga(data *model.DataAnimeManga, info bool) *discordgo.MessageEmbed {
 	msg := &discordgo.MessageEmbed{
-		Title: data.Title,
+		Title: data.Title.Romaji,
 		URL:   utils.GenerateLink(t.linkHost, constant.TypeManga, data.ID),
 		Color: constant.ColorGreen,
 	}
 
 	if !info {
-		msg.Description = utils.Ellipsis(utils.EmptyCheck(data.Synopsis), 500)
+		msg.Description = t.toMD(utils.Ellipsis(utils.EmptyCheck(data.Synopsis), 500))
 		msg.Thumbnail = &discordgo.MessageEmbedThumbnail{
 			URL: data.Image,
 		}
@@ -314,36 +312,21 @@ func (t *template) GetManga(data *model.DataAnimeManga, info bool) *discordgo.Me
 		msg.Fields = []*discordgo.MessageEmbedField{
 			{
 				Name:   "English",
-				Value:  utils.EmptyCheck(data.AltTitles.English),
+				Value:  utils.EmptyCheck(data.Title.English),
 				Inline: true,
 			},
 			{
-				Name:   "Japanese",
-				Value:  utils.EmptyCheck(data.AltTitles.Japanese),
-				Inline: true,
-			},
-			{
-				Name:   "Synonym",
-				Value:  utils.EmptyCheck(data.AltTitles.Synonym),
+				Name:   "Native",
+				Value:  utils.EmptyCheck(data.Title.Native),
 				Inline: true,
 			},
 			{
 				Name:  "Synopsis",
-				Value: utils.Ellipsis(utils.EmptyCheck(data.Synopsis), 1000),
-			},
-			{
-				Name:   "Rank",
-				Value:  "#" + utils.Thousands(data.Rank),
-				Inline: true,
+				Value: t.toMD(utils.Ellipsis(utils.EmptyCheck(data.Synopsis), 1000)),
 			},
 			{
 				Name:   "Score",
-				Value:  fmt.Sprintf("%.2f", data.Score),
-				Inline: true,
-			},
-			{
-				Name:   "Poplarity",
-				Value:  "#" + utils.Thousands(data.Popularity),
+				Value:  strconv.Itoa(data.Score),
 				Inline: true,
 			},
 			{
@@ -358,12 +341,12 @@ func (t *template) GetManga(data *model.DataAnimeManga, info bool) *discordgo.Me
 			},
 			{
 				Name:   "Type",
-				Value:  constant.MangaTypes[data.Type],
+				Value:  constant.MediaTypes[data.Type],
 				Inline: true,
 			},
 			{
 				Name:   "Status",
-				Value:  constant.MangaStatuses[data.Status],
+				Value:  constant.MediaStatuses[data.Status],
 				Inline: true,
 			},
 			{
@@ -372,8 +355,18 @@ func (t *template) GetManga(data *model.DataAnimeManga, info bool) *discordgo.Me
 				Inline: true,
 			},
 			{
+				Name:   "Ranking",
+				Value:  utils.EmptyCheck(strings.Join(data.Rankings, "\n")),
+				Inline: true,
+			},
+			{
 				Name:   "Publishing Start",
 				Value:  utils.DateToStr(data.Publishing.Start),
+				Inline: true,
+			},
+			{
+				Name:   "Publishing End",
+				Value:  utils.DateToStr(data.Publishing.End),
 				Inline: true,
 			},
 		}
@@ -444,16 +437,6 @@ func (t *template) GetPeople(data *model.DataCharPeople, info bool) *discordgo.M
 		}
 		msg.Fields = []*discordgo.MessageEmbedField{
 			{
-				Name:   "Given Name",
-				Value:  utils.EmptyCheck(data.GivenName),
-				Inline: true,
-			},
-			{
-				Name:   "Family Name",
-				Value:  utils.EmptyCheck(data.FamilyName),
-				Inline: true,
-			},
-			{
 				Name:   "Alternative Names",
 				Value:  utils.EmptyCheck(strings.Join(data.AlternativeNames, ", ")),
 				Inline: true,
@@ -469,16 +452,16 @@ func (t *template) GetPeople(data *model.DataCharPeople, info bool) *discordgo.M
 				Inline: true,
 			},
 			{
-				Name:   "Website",
-				Value:  utils.EmptyCheck(data.Website),
-				Inline: true,
-			},
-			{
 				Name:  "More",
-				Value: utils.Ellipsis(utils.EmptyCheck(data.More), 1000),
+				Value: utils.Ellipsis(utils.EmptyCheck(data.More), 800),
 			},
 		}
 	}
 
 	return msg
+}
+
+func (t *template) toMD(str string) string {
+	s, _ := t.converter.ConvertString(str)
+	return s
 }

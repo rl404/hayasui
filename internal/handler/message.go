@@ -159,11 +159,9 @@ func (h *MessageHandler) handleSearchAnime(s *discordgo.Session, m *discordgo.Me
 	}
 
 	// Add pagination reaction.
-	if cnt > len(data) {
-		for _, r := range constant.ReactionPaginationWithInfo {
-			if err = s.MessageReactionAdd(m.ChannelID, msg.ID, r); err != nil {
-				log.Println(err)
-			}
+	for _, r := range constant.ReactionPaginationWithInfo {
+		if err = s.MessageReactionAdd(m.ChannelID, msg.ID, r); err != nil {
+			log.Println(err)
 		}
 	}
 
@@ -202,11 +200,9 @@ func (h *MessageHandler) handleSearchManga(s *discordgo.Session, m *discordgo.Me
 	}
 
 	// Add pagination reaction.
-	if cnt > len(data) {
-		for _, r := range constant.ReactionPaginationWithInfo {
-			if err = s.MessageReactionAdd(m.ChannelID, msg.ID, r); err != nil {
-				log.Println(err)
-			}
+	for _, r := range constant.ReactionPaginationWithInfo {
+		if err = s.MessageReactionAdd(m.ChannelID, msg.ID, r); err != nil {
+			log.Println(err)
 		}
 	}
 
@@ -244,11 +240,9 @@ func (h *MessageHandler) handleSearchCharacter(s *discordgo.Session, m *discordg
 	}
 
 	// Add pagination reaction.
-	if cnt > len(data) {
-		for _, r := range constant.ReactionPagination {
-			if err = s.MessageReactionAdd(m.ChannelID, msg.ID, r); err != nil {
-				log.Println(err)
-			}
+	for _, r := range constant.ReactionPagination {
+		if err = s.MessageReactionAdd(m.ChannelID, msg.ID, r); err != nil {
+			log.Println(err)
 		}
 	}
 
@@ -286,11 +280,9 @@ func (h *MessageHandler) handleSearchPeople(s *discordgo.Session, m *discordgo.M
 	}
 
 	// Add pagination reaction.
-	if cnt > len(data) {
-		for _, r := range constant.ReactionPagination {
-			if err = s.MessageReactionAdd(m.ChannelID, msg.ID, r); err != nil {
-				log.Println(err)
-			}
+	for _, r := range constant.ReactionPagination {
+		if err = s.MessageReactionAdd(m.ChannelID, msg.ID, r); err != nil {
+			log.Println(err)
 		}
 	}
 

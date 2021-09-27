@@ -52,7 +52,7 @@ func bot() error {
 
 	// Init api.
 	var service api.API
-	service = http.New(cfg.APIHost)
+	service = http.New()
 	service = _cache.New(redis, service)
 
 	// Init discord.
@@ -64,8 +64,8 @@ func bot() error {
 
 	// Init handler.
 	ready := handler.NewReadyHandler(cfg.Prefix)
-	msg := handler.NewMessageHandler(service, redis, cfg.Prefix, cfg.LinkHost)
-	reaction := handler.NewReactionHandler(service, redis, cfg.LinkHost)
+	msg := handler.NewMessageHandler(service, redis, cfg.Prefix, cfg.RedirectHost)
+	reaction := handler.NewReactionHandler(service, redis, cfg.RedirectHost)
 
 	// Add handler.
 	d.AddReadyHandler(ready.Handler())
