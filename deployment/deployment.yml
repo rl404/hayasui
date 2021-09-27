@@ -6,8 +6,7 @@ type: Opaque
 stringData:
   HYS_TOKEN: "discord-token"
   HYS_PREFIX: ">"
-  HYS_API_HOST: "http://localhost:8006"
-  HYS_LINK_HOST: "http://localhost:3000"
+  HYS_REDIRECT_HOST: "https://anilist.co"
   HYS_REDIS_ADDRESS: "localhost:6379"
   HYS_REDIS_PASSWORD: ""
   HYS_REDIS_TIME: "86400"

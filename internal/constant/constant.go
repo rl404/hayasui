@@ -5,7 +5,7 @@ const (
 	TypeAnime     = "anime"
 	TypeManga     = "manga"
 	TypeCharacter = "character"
-	TypePeople    = "people"
+	TypePeople    = "staff"
 )
 
 // Color.
@@ -66,51 +66,25 @@ const (
 // DataPerPage is limit data count per page.
 const DataPerPage = 10
 
-// AnimeTypes is types of anime.
-var AnimeTypes = map[int]string{
-	1: "TV",
-	2: "OVA",
-	3: "Movie",
-	4: "Special",
-	5: "ONA",
-	6: "Music",
+// MediaTypes is types of anime & manga.
+var MediaTypes = map[string]string{
+	"TV":       "TV",
+	"TV_SHORT": "Short",
+	"MOVIE":    "Movie",
+	"SPECIAL":  "Special",
+	"OVA":      "OVA",
+	"ONA":      "ONA",
+	"MUSIC":    "Music",
+	"MANGA":    "Manga",
+	"NOVEL":    "Novel",
+	"ONE_SHOT": "OneShot",
 }
 
-// MangaTypes is types of manga.
-var MangaTypes = map[int]string{
-	1: "Manga",
-	2: "Light Novel",
-	3: "One-shot",
-	4: "Doujinshi",
-	5: "Manhwa",
-	6: "Manhua",
-	7: "OEL",
-	8: "Novel",
-}
-
-var MangaTypesShort = map[int]string{
-	1: "Manga",
-	2: "LN",
-	3: "Oneshot",
-	4: "Doujin",
-	5: "Manhwa",
-	6: "Manhua",
-	7: "OEL",
-	8: "Novel",
-}
-
-// AnimeStatuses is status of anime.
-var AnimeStatuses = map[int]string{
-	1: "Currently Airing",
-	2: "Finished Airing",
-	3: "Not yet aired",
-}
-
-// MangaStatuses is status of manga.
-var MangaStatuses = map[int]string{
-	1: "Publishing",
-	2: "Finished",
-	3: "Not yet published",
-	4: "On Hiatus",
-	5: "Discontinued",
+// MediaStatuses is status of anime & manga.
+var MediaStatuses = map[string]string{
+	"FINISHED":         "Finished",
+	"RELEASING":        "Releasing",
+	"NOT_YET_RELEASED": "Not Yet Released",
+	"CANCELLED":        "Cancelled",
+	"HIATUS":           "Hiatus",
 }

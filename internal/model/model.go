@@ -9,130 +9,77 @@ type Command struct {
 	Type     int      `json:"type"`
 }
 
-// Response is base api response model.
-type Response struct {
-	Status  int    `json:"status"`
-	Message string `json:"message"`
-	Meta    Meta   `json:"meta"`
-}
-
-// Meta is api response meta field model.
-type Meta struct {
-	Count int `json:"count"`
-}
-
-// ResponseError is error api response model.
-type ResponseError struct {
-	Status  int    `json:"status"`
-	Message string `json:"message"`
-	Data    string `json:"data"`
-}
-
 // Date is common date format model.
 type Date struct {
-	Year  int `json:"year"`
-	Month int `json:"month"`
-	Day   int `json:"day"`
-}
-
-// ResponseSearchAnimeManga is api anime & manga search response model.
-type ResponseSearchAnimeManga struct {
-	Response
-	Data []DataSearchAnimeManga `json:"data"`
+	Year  int
+	Month int
+	Day   int
 }
 
 // DataSearchAnimeManga is api anime & manga search response data model.
 type DataSearchAnimeManga struct {
-	ID    int     `json:"id"`
-	Title string  `json:"title"`
-	Type  int     `json:"type"`
-	Score float64 `json:"score"`
-}
-
-// ResponseSearchCharPeople is api character & people search response model.
-type ResponseSearchCharPeople struct {
-	Response
-	Data []DataSearchCharPeople `json:"data"`
+	ID    int
+	Title string
+	Type  string
+	Score int
 }
 
 // DataSearchCharPeople is api character & people search response data model.
 type DataSearchCharPeople struct {
-	ID   int    `json:"id"`
-	Name string `json:"name"`
-}
-
-// ResponseAnimeManga is api anime & manga response model.
-type ResponseAnimeManga struct {
-	Response
-	Data DataAnimeManga `json:"data"`
+	ID   int
+	Name string
 }
 
 // DataAnimeManga is api anime & manga response data model.
 type DataAnimeManga struct {
-	ID         int      `json:"id"`
-	Title      string   `json:"title"`
-	AltTitles  altTitle `json:"alternativeTitles"`
-	Image      string   `json:"image"`
-	Synopsis   string   `json:"synopsis"`
-	Score      float64  `json:"score"`
-	Voter      int      `json:"voter"`
-	Rank       int      `json:"rank"`
-	Popularity int      `json:"popularity"`
-	Member     int      `json:"member"`
-	Favorite   int      `json:"favorite"`
-	Type       int      `json:"type"`
-	Status     int      `json:"status"`
+	ID       int
+	Title    Title
+	Image    string
+	Synopsis string
+	Score    int
+	Rankings []string
+	Member   int
+	Favorite int
+	Type     string
+	Status   string
 
 	// Anime only.
-	Episode   int    `json:"episode"`
-	Airing    airing `json:"airing"`
-	Duration  string `json:"duration"`
-	Premiered string `json:"premiered"`
-	Source    int    `json:"source"`
-	Rating    int    `json:"rating"`
+	Episode int
+	Airing  Airing
 
 	// Manga only.
-	Volume     int    `json:"volume"`
-	Chapter    int    `json:"chapter"`
-	Publishing airing `json:"publishing"`
+	Volume     int
+	Chapter    int
+	Publishing Airing
 }
 
-type altTitle struct {
-	English  string `json:"english"`
-	Japanese string `json:"japanese"`
-	Synonym  string `json:"synonym"`
+// Title is anime & manga titles.
+type Title struct {
+	English string
+	Romaji  string
+	Native  string
 }
 
-type airing struct {
-	Start Date   `json:"start"`
-	End   Date   `json:"end"`
-	Day   string `json:"day"`
-	Time  string `json:"time"`
-}
-
-// ResponseCharPeople is api character & people response model.
-type ResponseCharPeople struct {
-	Response
-	Data DataCharPeople `json:"data"`
+// Airing is anime & manga airing/publishing date.
+type Airing struct {
+	Start Date
+	End   Date
 }
 
 // DataCharPeople is api character & people response data model.
 type DataCharPeople struct {
-	ID       int    `json:"id"`
-	Name     string `json:"name"`
-	Image    string `json:"image"`
-	Favorite int    `json:"favorite"`
+	ID       int
+	Name     string
+	Image    string
+	Favorite int
 
 	// Character only.
-	Nicknames    []string `json:"nicknames"`
-	JapaneseName string   `json:"japaneseName"`
-	About        string   `json:"about"`
+	Nicknames    []string
+	JapaneseName string
+	About        string
 
 	// People only.
-	GivenName        string   `json:"givenName"`
-	FamilyName       string   `json:"familyName"`
-	AlternativeNames []string `json:"alternativeNames"`
-	Birthday         Date     `json:"birthday"`
-	Website          string   `json:"website"`
-	More             string   `json:"more"`
+	AlternativeNames []string
+	Birthday         Date
+	More             string
 }
