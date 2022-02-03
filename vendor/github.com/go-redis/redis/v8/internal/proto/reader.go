@@ -8,6 +8,7 @@ import (
 	"github.com/go-redis/redis/v8/internal/util"
 )
 
+// redis resp protocol data type.
 const (
 	ErrorReply  = '-'
 	StatusReply = '+'
@@ -18,7 +19,7 @@ const (
 
 //------------------------------------------------------------------------------
 
-const Nil = RedisError("redis: nil")
+const Nil = RedisError("redis: nil") // nolint:errname
 
 type RedisError string
 
