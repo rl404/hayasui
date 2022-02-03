@@ -91,7 +91,12 @@ var commonmark = []Rule{
 			text = escape.MarkdownCharacters(text)
 
 			// if its inside a list, trim the spaces to not mess up the indentation
-			if IndexWithText(selec) == 0 && (selec.Parent().Is("li") || selec.Parent().Is("ol") || selec.Parent().Is("ul")) {
+			parent := selec.Parent()
+			next := selec.Next()
+			if IndexWithText(selec) == 0 &&
+				(parent.Is("li") || parent.Is("ol") || parent.Is("ul")) &&
+				(next.Is("ul") || next.Is("ol")) {
+				// trim only spaces and not new lines
 				text = strings.Trim(text, ` `)
 			}
 
@@ -167,9 +172,13 @@ var commonmark = []Rule{
 			if trimmed == "" {
 				return &trimmed
 			}
-			trimmed = opt.StrongDelimiter + trimmed + opt.StrongDelimiter
 
-			// always have a space to the side to recognize the delimiter
+			// If there is a newline character between the start and end delimiter
+			// the delimiters won't be recognized. Either we remove all newline characters
+			// OR on _every_ line we put start & end delimiters.
+			trimmed = delimiterForEveryLine(trimmed, opt.StrongDelimiter)
+
+			// Always have a space to the side to recognize the delimiter
 			trimmed = AddSpaceIfNessesary(selec, trimmed)
 
 			return &trimmed
@@ -188,9 +197,13 @@ var commonmark = []Rule{
 			if trimmed == "" {
 				return &trimmed
 			}
-			trimmed = opt.EmDelimiter + trimmed + opt.EmDelimiter
 
-			// always have a space to the side to recognize the delimiter
+			// If there is a newline character between the start and end delimiter
+			// the delimiters won't be recognized. Either we remove all newline characters
+			// OR on _every_ line we put start & end delimiters.
+			trimmed = delimiterForEveryLine(trimmed, opt.EmDelimiter)
+
+			// Always have a space to the side to recognize the delimiter
 			trimmed = AddSpaceIfNessesary(selec, trimmed)
 
 			return &trimmed
@@ -283,7 +296,7 @@ var commonmark = []Rule{
 	{
 		Filter: []string{"code"},
 		Replacement: func(_ string, selec *goquery.Selection, opt *Options) *string {
-			code := getHTML(selec)
+			code := getCodeContent(selec)
 
 			// Newlines in the text aren't great, since this is inline code and not a code block.
 			// Newlines will be stripped anyway in the browser, but it won't be recognized as code
@@ -319,10 +332,7 @@ var commonmark = []Rule{
 			language := codeElement.AttrOr("class", "")
 			language = strings.Replace(language, "language-", "", 1)
 
-			code := getHTML(codeElement)
-			if codeElement.Length() == 0 {
-				code = getHTML(selec)
-			}
+			code := getCodeContent(selec)
 
 			fenceChar, _ := utf8.DecodeRuneInString(opt.Fence)
 			fence := CalculateCodeFence(fenceChar, code)
@@ -336,6 +346,12 @@ var commonmark = []Rule{
 	{
 		Filter: []string{"hr"},
 		Replacement: func(content string, selec *goquery.Selection, opt *Options) *string {
+			// e.g. `## --- Heading` would look weird, so don't render a divider if inside a heading
+			insideHeading := selec.ParentsFiltered("h1,h2,h3,h4,h5,h6").Length() > 0
+			if insideHeading {
+				return String("")
+			}
+
 			text := "\n\n" + opt.HorizontalRule + "\n\n"
 			return &text
 		},

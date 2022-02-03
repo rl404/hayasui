@@ -1,19 +1,20 @@
-# github.com/JohannesKaufmann/html-to-markdown v1.3.0
+# github.com/JohannesKaufmann/html-to-markdown v1.3.3
 ## explicit
 github.com/JohannesKaufmann/html-to-markdown
 github.com/JohannesKaufmann/html-to-markdown/escape
-# github.com/PuerkitoBio/goquery v1.5.1
+# github.com/PuerkitoBio/goquery v1.8.0
+## explicit
 github.com/PuerkitoBio/goquery
-# github.com/andybalholm/cascadia v1.1.0
+# github.com/andybalholm/cascadia v1.3.1
 github.com/andybalholm/cascadia
 # github.com/bwmarrin/discordgo v0.23.2
 ## explicit
 github.com/bwmarrin/discordgo
-# github.com/cespare/xxhash/v2 v2.1.1
+# github.com/cespare/xxhash/v2 v2.1.2
 github.com/cespare/xxhash/v2
 # github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f
 github.com/dgryski/go-rendezvous
-# github.com/go-redis/redis/v8 v8.8.0
+# github.com/go-redis/redis/v8 v8.11.4
 ## explicit
 github.com/go-redis/redis/v8
 github.com/go-redis/redis/v8/internal
@@ -24,10 +25,11 @@ github.com/go-redis/redis/v8/internal/proto
 github.com/go-redis/redis/v8/internal/rand
 github.com/go-redis/redis/v8/internal/util
 # github.com/gorilla/websocket v1.4.2
+## explicit
 github.com/gorilla/websocket
 # github.com/inconshreveable/mousetrap v1.0.0
 github.com/inconshreveable/mousetrap
-# github.com/joho/godotenv v1.3.0
+# github.com/joho/godotenv v1.4.0
 ## explicit
 github.com/joho/godotenv
 # github.com/kelseyhightower/envconfig v1.4.0
@@ -37,37 +39,21 @@ github.com/kelseyhightower/envconfig
 ## explicit
 github.com/rl404/verniy
 github.com/rl404/verniy/internal/limiter
-# github.com/spf13/cobra v1.1.3
+# github.com/spf13/cobra v1.3.0
 ## explicit
 github.com/spf13/cobra
 # github.com/spf13/pflag v1.0.5
 github.com/spf13/pflag
-# go.opentelemetry.io/otel v0.19.0
-go.opentelemetry.io/otel
-go.opentelemetry.io/otel/attribute
-go.opentelemetry.io/otel/codes
-go.opentelemetry.io/otel/internal
-go.opentelemetry.io/otel/internal/baggage
-go.opentelemetry.io/otel/internal/global
-go.opentelemetry.io/otel/internal/trace/noop
-go.opentelemetry.io/otel/propagation
-go.opentelemetry.io/otel/unit
-# go.opentelemetry.io/otel/metric v0.19.0
-go.opentelemetry.io/otel/metric
-go.opentelemetry.io/otel/metric/global
-go.opentelemetry.io/otel/metric/number
-go.opentelemetry.io/otel/metric/registry
-# go.opentelemetry.io/otel/trace v0.19.0
-go.opentelemetry.io/otel/trace
-# golang.org/x/crypto v0.0.0-20210322153248-0c34fe9e7dc2
+# golang.org/x/crypto v0.0.0-20220131195533-30dcbda58838
 ## explicit
+golang.org/x/crypto/internal/poly1305
 golang.org/x/crypto/internal/subtle
 golang.org/x/crypto/nacl/secretbox
-golang.org/x/crypto/poly1305
 golang.org/x/crypto/salsa20/salsa
-# golang.org/x/net v0.0.0-20210226172049-e18ecbb05110
+# golang.org/x/net v0.0.0-20220127200216-cd36cc0744dd
+## explicit
 golang.org/x/net/html
 golang.org/x/net/html/atom
-# golang.org/x/sys v0.0.0-20210403161142-5e06dd20ab57
+# golang.org/x/sys v0.0.0-20220128215802-99c3d69c2c27
 ## explicit
 golang.org/x/sys/cpu

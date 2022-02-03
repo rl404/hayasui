@@ -11,6 +11,7 @@ import (
 
 	"github.com/PuerkitoBio/goquery"
 	"golang.org/x/net/html"
+	"golang.org/x/net/html/atom"
 )
 
 /*
@@ -262,16 +263,86 @@ func findMax(a []int) (max int) {
 	return max
 }
 
-// getHTML gets the HTML content and unescapes the encoded characters.
+func stripHighlightTags(doc *html.Node) (string, error) {
+	var render = func(n *html.Node, level int) (content string, skipChilds bool) {
+		if n.Type != html.ElementNode {
+			return "", false
+		}
+
+		// Only skip top level code/pre tags
+		if level <= 2 && (n.DataAtom == atom.Code || n.DataAtom == atom.Pre) {
+			return "", false
+		}
+		// Unfortunately span tags are oftentimes used for code highlighting,
+		// so we don't render <span> tags but keep its text content.
+		if n.DataAtom == atom.Span {
+			return "", false
+		}
+
+		// Let the other content be rendered as html
+		var buf bytes.Buffer
+		err := html.Render(&buf, n)
+		if err != nil {
+			return
+		}
+		return buf.String(), true
+	}
+
+	var result strings.Builder
+	var f func(*html.Node, int)
+	f = func(n *html.Node, level int) {
+		if n.Type == html.TextNode {
+			result.WriteString(n.Data)
+			return
+		}
+
+		content, skipChilds := render(n, level)
+		result.WriteString(content)
+
+		if skipChilds {
+			return
+		}
+		for c := n.FirstChild; c != nil; c = c.NextSibling {
+			f(c, level+1)
+		}
+	}
+	f(doc, 1)
+
+	return result.String(), nil
+}
+
+// getCodeContent gets the content of pre/code and unescapes the encoded characters.
 // Returns "" if there is an error.
-func getHTML(selec *goquery.Selection) string {
-	content, err := selec.Html()
+func getCodeContent(selec *goquery.Selection) string {
+	if len(selec.Nodes) == 0 {
+		return ""
+	}
+
+	content, err := stripHighlightTags(selec.Nodes[0])
 	if err != nil {
 		return ""
 	}
 
-	// We don't want the html encoded characters to be displayed as is.
-	return html.UnescapeString(content)
+	return content
+}
+
+// delimiterForEveryLine puts the delimiter not just at the start and end of the string
+// but if the text is divided on multiple lines, puts the delimiters on every line with content.
+//
+// Otherwise the bold/italic delimiters won't be recognized if it contains new line characters.
+func delimiterForEveryLine(text string, delimiter string) string {
+	lines := strings.Split(text, "\n")
+
+	for i, line := range lines {
+		line = strings.TrimSpace(line)
+		if line == "" {
+			// Skip empty lines
+			continue
+		}
+
+		lines[i] = delimiter + line + delimiter
+	}
+	return strings.Join(lines, "\n")
 }
 
 // isWrapperListItem returns wether the list item has own
@@ -370,20 +441,38 @@ func IndentMultiLineListItem(opt *Options, text string, spaces int) string {
 func isListItem(opt *Options, line string) bool {
 	b := []rune(line)
 
-	var hasMarker bool
+	bulletMarker := []rune(opt.BulletListMarker)[0]
+
 	var hasNumber bool
+	var hasMarker bool
+	var hasSpace bool
 
 	for i := 0; i < len(b); i++ {
-		// a marker followed by a space qualifies as a list item
-		if hasMarker {
-			if unicode.IsSpace(b[i]) {
-				return true
-			} else {
+		// A marker followed by a space qualifies as a list item
+		if hasMarker && hasSpace {
+			if b[i] == bulletMarker {
+				// But if another BulletListMarker is found, it
+				// might be a HorizontalRule
 				return false
+			}
+
+			if !unicode.IsSpace(b[i]) {
+				// Now we have some text
+				return true
 			}
 		}
 
-		if b[i] == []rune(opt.BulletListMarker)[0] {
+		if hasMarker {
+			if unicode.IsSpace(b[i]) {
+				hasSpace = true
+				continue
+			}
+			// A marker like "1." that is not immediately followed by a space
+			// is probably a false positive
+			return false
+		}
+
+		if b[i] == bulletMarker {
 			hasMarker = true
 			continue
 		}
@@ -401,7 +490,7 @@ func isListItem(opt *Options, line string) bool {
 			continue
 		}
 
-		// if we encouter any other character
+		// If we encouter any other character
 		// before finding an indicator, its
 		// not a list item
 		return false
