@@ -14,6 +14,8 @@ github.com/bwmarrin/discordgo
 github.com/cespare/xxhash/v2
 # github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f
 github.com/dgryski/go-rendezvous
+# github.com/fsnotify/fsnotify v1.5.1
+## explicit
 # github.com/go-redis/redis/v8 v8.11.4
 ## explicit
 github.com/go-redis/redis/v8
@@ -34,15 +36,21 @@ github.com/joho/godotenv
 # github.com/kelseyhightower/envconfig v1.4.0
 ## explicit
 github.com/kelseyhightower/envconfig
+# github.com/kr/pretty v0.2.0
+## explicit
 # github.com/rl404/verniy v0.1.1
 ## explicit
 github.com/rl404/verniy
 github.com/rl404/verniy/internal/limiter
-# github.com/spf13/cobra v1.3.0
+# github.com/spf13/cobra v1.4.0
 ## explicit
 github.com/spf13/cobra
 # github.com/spf13/pflag v1.0.5
 github.com/spf13/pflag
+# github.com/stretchr/testify v1.7.0
+## explicit
+# github.com/yuin/goldmark v1.3.5
+## explicit
 # golang.org/x/crypto v0.0.0-20220131195533-30dcbda58838
 ## explicit
 golang.org/x/crypto/internal/poly1305
@@ -56,3 +64,7 @@ golang.org/x/net/html/atom
 # golang.org/x/sys v0.0.0-20220128215802-99c3d69c2c27
 ## explicit
 golang.org/x/sys/cpu
+# google.golang.org/protobuf v1.27.1
+## explicit
+# gopkg.in/yaml.v3 v3.0.0-20210107192922-496545a6307b
+## explicit
