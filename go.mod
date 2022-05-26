@@ -3,7 +3,7 @@ module github.com/rl404/hayasui
 go 1.15
 
 require (
-	github.com/JohannesKaufmann/html-to-markdown v1.3.3
+	github.com/JohannesKaufmann/html-to-markdown v1.3.4
 	github.com/PuerkitoBio/goquery v1.8.0 // indirect
 	github.com/bwmarrin/discordgo v0.25.0
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
