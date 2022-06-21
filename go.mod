@@ -13,7 +13,7 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/kr/pretty v0.2.0 // indirect
 	github.com/rl404/verniy v0.1.1
-	github.com/spf13/cobra v1.4.0
+	github.com/spf13/cobra v1.5.0
 	github.com/stretchr/testify v1.7.0 // indirect
 	github.com/yuin/goldmark v1.3.5 // indirect
 	golang.org/x/crypto v0.0.0-20220131195533-30dcbda58838 // indirect
