@@ -5,7 +5,7 @@ go 1.15
 require (
 	github.com/JohannesKaufmann/html-to-markdown v1.3.5
 	github.com/PuerkitoBio/goquery v1.8.0 // indirect
-	github.com/bwmarrin/discordgo v0.25.0
+	github.com/bwmarrin/discordgo v0.26.0
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/go-redis/redis/v8 v8.11.5
 	github.com/google/go-cmp v0.5.6 // indirect
