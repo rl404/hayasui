@@ -12,7 +12,7 @@ require (
 	github.com/joho/godotenv v1.4.0
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/kr/pretty v0.2.0 // indirect
-	github.com/rl404/verniy v0.1.1
+	github.com/rl404/verniy v0.2.0
 	github.com/spf13/cobra v1.5.0
 	github.com/stretchr/testify v1.7.0 // indirect
 	github.com/yuin/goldmark v1.3.5 // indirect

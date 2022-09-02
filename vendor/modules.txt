@@ -40,7 +40,7 @@ github.com/joho/godotenv
 github.com/kelseyhightower/envconfig
 # github.com/kr/pretty v0.2.0
 ## explicit
-# github.com/rl404/verniy v0.1.1
+# github.com/rl404/verniy v0.2.0
 ## explicit
 github.com/rl404/verniy
 github.com/rl404/verniy/internal/limiter
