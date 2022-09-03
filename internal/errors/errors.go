@@ -1,13 +1,42 @@
 package errors
 
-import "errors"
-
-// List of errors.
-var (
-	ErrRequiredToken    = errors.New("required discord token")
-	ErrRequiredPrefix   = errors.New("required command prefix")
-	ErrRequiredAPI      = errors.New("required api host")
-	ErrRequiredRedis    = errors.New("required redis address")
-	ErrInvalidCacheTime = errors.New("invalid caching time")
-	ErrNot200           = errors.New("response code not 200")
+import (
+	"errors"
+	"fmt"
+	"strings"
 )
+
+// List of error.
+var (
+	ErrInvalidCacheTime = errors.New("invalid cache time")
+)
+
+// ErrRequiredField is error for missing field.
+func ErrRequiredField(str string) error {
+	return fmt.Errorf("required field %s", str)
+}
+
+// ErrGTField is error for greater than field.
+func ErrGTField(str, value string) error {
+	return fmt.Errorf("field %s must be greater than %s", str, value)
+}
+
+// ErrGTEField is error for greater than or equal field.
+func ErrGTEField(str, value string) error {
+	return fmt.Errorf("field %s must be greater than or equal %s", str, value)
+}
+
+// ErrLTField is error for lower than field.
+func ErrLTField(str, value string) error {
+	return fmt.Errorf("field %s must be lower than %s", str, value)
+}
+
+// ErrLTEField is error for lower than or equal field.
+func ErrLTEField(str, value string) error {
+	return fmt.Errorf("field %s must be lower than or equal %s", str, value)
+}
+
+// ErrOneOfField is error for oneof field.
+func ErrOneOfField(str, value string) error {
+	return fmt.Errorf("field %s must be one of %s", str, strings.Join(strings.Split(value, " "), "/"))
+}

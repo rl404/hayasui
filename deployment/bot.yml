@@ -1,0 +1,10 @@
+version: '2.4'
+
+services:
+  hayasui-bot:
+    container_name: hayasui-bot
+    image: rl404/hayasui:latest
+    command: ./hayasui bot
+    network_mode: host
+    restart: always
+    env_file: ./../.env
