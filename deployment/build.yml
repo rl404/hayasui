@@ -1,0 +1,8 @@
+version: '2.4'
+
+services:
+  hayasui-build:
+    image: rl404/hayasui:latest
+    build:
+      context: ./..
+      dockerfile: ./build/package/Dockerfile

@@ -1,11 +1,8 @@
 package utils
 
 import (
-	"fmt"
 	"strconv"
 	"strings"
-
-	"github.com/rl404/hayasui/internal/model"
 )
 
 // Repeat to repeat string.
@@ -33,44 +30,6 @@ func Ellipsis(str string, length int) string {
 		return string(r[:length-3]) + "..."
 	}
 	return str
-}
-
-// GenerateLink to generate entry web page link.
-func GenerateLink(host string, path ...interface{}) string {
-	for _, p := range path {
-		host += fmt.Sprintf("/%v", p)
-	}
-	return host
-}
-
-var months = []string{
-	"",
-	"January",
-	"February",
-	"March",
-	"April",
-	"May",
-	"June",
-	"July",
-	"August",
-	"September",
-	"October",
-	"November",
-	"December",
-}
-
-// DateToStr to convert date format to string.
-func DateToStr(d model.Date) string {
-	if d.Year != 0 {
-		if d.Month != 0 {
-			if d.Day != 0 {
-				return fmt.Sprintf("%v %s %v", d.Day, months[d.Month][:3], d.Year)
-			}
-			return fmt.Sprintf("%s %v", months[d.Month][:3], d.Year)
-		}
-		return strconv.Itoa(d.Year)
-	}
-	return "-"
 }
 
 // Thousands to format int to thousands string format.
@@ -101,14 +60,6 @@ func Thousands(num int) string {
 			c3 = 0
 		}
 	}
-}
-
-// EmptyCheck to check if string empty.
-func EmptyCheck(str string) string {
-	if str == "" {
-		return "-"
-	}
-	return str
 }
 
 // PtrToStr to convert string pointer to string.
