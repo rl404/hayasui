@@ -19,7 +19,7 @@ Hayasui is a discord bot to search and provide you anime/manga/character/people 
 
 - [Discord bot](https://discordpy.readthedocs.io/en/latest/discord.html) and its token
 - [Go](https://golang.org/)
-- [Redis](https://redis.io/)
+- [Redis](https://redis.io/) (optional)
 - [Docker](https://docker.com) + [Docker compose](https://docs.docker.com/compose/) (optional)
 
 ## Steps
