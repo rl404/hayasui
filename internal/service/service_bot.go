@@ -65,15 +65,13 @@ func (s *service) handleError(ctx context.Context, channelID string, err error) 
 
 // GetReaction to get discord reaction.
 func (s *service) GetReaction(ctx context.Context, m *discordgo.MessageReactionAdd) (*reactionEntity.Command, error) {
-	defer func() {
-		// Remove user reaction.
-		if err := s.discord.RemoveMessageReaction(ctx, m.ChannelID, m.MessageID, m.Emoji.Name, m.UserID); err != nil {
-			errors.Wrap(ctx, err)
-		}
-	}()
-
 	cmd, err := s.reaction.GetCommand(ctx, m.MessageID)
 	if err != nil {
+		return nil, errors.Wrap(ctx, err)
+	}
+
+	// Remove user reaction.
+	if err := s.discord.RemoveMessageReaction(ctx, m.ChannelID, m.MessageID, m.Emoji.Name, m.UserID); err != nil {
 		return nil, errors.Wrap(ctx, err)
 	}
 
