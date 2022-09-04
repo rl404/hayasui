@@ -20,7 +20,7 @@ type config struct {
 
 type discordConfig struct {
 	Token  string `envconfig:"TOKEN" validate:"required" mod:"trim"`
-	Prefix string `envconfig:"PREFIX" validate:"required" mod:">"`
+	Prefix string `envconfig:"PREFIX" validate:"required" mod:"trim,default=>"`
 }
 
 type cacheConfig struct {
@@ -64,6 +64,11 @@ func getConfig() (*config, error) {
 
 	if cfg.Cache.Time <= 0 {
 		return nil, errors.ErrInvalidCacheTime
+	}
+
+	// Validate.
+	if err := utils.Validate(&cfg); err != nil {
+		return nil, err
 	}
 
 	// Init global log.
