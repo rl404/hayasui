@@ -10,7 +10,7 @@ require (
 	github.com/newrelic/go-agent/v3 v3.19.2
 	github.com/rl404/fairy v0.20.2
 	github.com/rl404/verniy v0.2.0
-	github.com/spf13/cobra v1.6.0
+	github.com/spf13/cobra v1.6.1
 	golang.org/x/text v0.4.0
 )
 
