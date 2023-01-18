@@ -4,7 +4,7 @@ go 1.18
 
 require (
 	github.com/JohannesKaufmann/html-to-markdown v1.3.6
-	github.com/bwmarrin/discordgo v0.26.1
+	github.com/bwmarrin/discordgo v0.27.0
 	github.com/joho/godotenv v1.4.0
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/newrelic/go-agent/v3 v3.20.2
