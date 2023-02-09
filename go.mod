@@ -11,7 +11,7 @@ require (
 	github.com/rl404/fairy v0.21.0
 	github.com/rl404/verniy v0.2.0
 	github.com/spf13/cobra v1.6.1
-	golang.org/x/text v0.6.0
+	golang.org/x/text v0.7.0
 )
 
 require (
