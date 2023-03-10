@@ -7,7 +7,7 @@ require (
 	github.com/bwmarrin/discordgo v0.27.0
 	github.com/joho/godotenv v1.5.1
 	github.com/kelseyhightower/envconfig v1.4.0
-	github.com/newrelic/go-agent/v3 v3.20.3
+	github.com/newrelic/go-agent/v3 v3.20.4
 	github.com/rl404/fairy v0.22.0
 	github.com/rl404/verniy v0.2.0
 	github.com/spf13/cobra v1.6.1
