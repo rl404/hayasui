@@ -4,7 +4,7 @@ LABEL stage="hayasui_builder"
 WORKDIR /hayasui
 COPY . .
 WORKDIR /hayasui/cmd/hayasui
-RUN CGO_ENABLED=0 GOOS=linux GOARCH=amd64 go build -a -installsuffix cgo -mod vendor -o hayasui
+RUN CGO_ENABLED=0 go build -a -installsuffix cgo -o hayasui
 
 # New stage from scratch
 FROM alpine:3.18
