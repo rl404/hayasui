@@ -1,6 +1,7 @@
 # Sample Result
 
 ### Reaction List
+
 ⏪ : First page.
 
 ◀️ : Previous page.

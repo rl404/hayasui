@@ -70,4 +70,3 @@ jobs:
       - name: Deploy
         run: |
           kubectl set image deployment ${{ secrets.GKE_DEPLOYMENT_NAME }} ${{ secrets.GKE_CONTAINER_NAME }}=rl404/hayasui:${{ needs.publish_image.outputs.img_tag }}
-
