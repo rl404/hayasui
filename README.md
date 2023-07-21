@@ -25,29 +25,31 @@ Hayasui is a discord bot to search and provide you anime/manga/character/people 
 ## Steps
 
 1. Git clone this repo.
-    ```bash
-    git clone github.com/rl404/hayasui
-    ```
+   ```bash
+   git clone github.com/rl404/hayasui
+   ```
 2. Rename `sample.env` to `.env` and modify according to your configuration.
 
-Name | Default | Description
---- | :---: | ---
-`HYS_DISCORD_TOKEN`* | | Discord bot token.
-`HYS_DISCORD_PREFIX` | `>` | Discord bot prefix command.
-`HYS_CACHE_DIALECT` | `inmemory` | Cache type (`redis`,`inmemory`,`memcache`)
-`HYS_CACHE_ADDRESS` | | Cache address.
-`HYS_CACHE_PASSWORD` | | Cache passowrd.
-`HYS_CACHE_TIME` | `24h` | Cache duration.
+| Name                  |  Default   | Description                                |
+| --------------------- | :--------: | ------------------------------------------ |
+| `HYS_DISCORD_TOKEN`\* |            | Discord bot token.                         |
+| `HYS_DISCORD_PREFIX`  |    `>`     | Discord bot prefix command.                |
+| `HYS_CACHE_DIALECT`   | `inmemory` | Cache type (`redis`,`inmemory`,`memcache`) |
+| `HYS_CACHE_ADDRESS`   |            | Cache address.                             |
+| `HYS_CACHE_PASSWORD`  |            | Cache passowrd.                            |
+| `HYS_CACHE_TIME`      |   `24h`    | Cache duration.                            |
 
 3. Run.
-    ```bash
-    make bot
 
-    # or using docker
-    make docker
-    # to stop docker
-    make docker-stop
-    ```
+   ```bash
+   make bot
+
+   # or using docker
+   make docker
+   # to stop docker
+   make docker-stop
+   ```
+
 4. Invite the bot to your server.
 5. Try `>help`.
 6. Have fun.
@@ -67,6 +69,7 @@ Name | Default | Description
 ```
 
 ### Get Anime
+
 ```bash
 >anime <anime_id>
 
@@ -75,6 +78,7 @@ Name | Default | Description
 ```
 
 ### Get Manga
+
 ```bash
 >manga <manga_id>
 
@@ -83,6 +87,7 @@ Name | Default | Description
 ```
 
 ### Get Character
+
 ```bash
 >character <character_id>
 
@@ -91,6 +96,7 @@ Name | Default | Description
 ```
 
 ### Get People
+
 ```bash
 >people <people_id>
 
