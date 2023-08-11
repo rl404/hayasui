@@ -72,6 +72,8 @@ github.com/newrelic/go-agent/v3 v3.23.1 h1:n4CK4EEod2A47T74wQFztavh9g3wHxxmlndj5
 github.com/newrelic/go-agent/v3 v3.23.1/go.mod h1:dG7Q7yLUrqOo7SYVJADVDN9+P8c/87xp9axldPxmdHM=
 github.com/newrelic/go-agent/v3 v3.24.0 h1:DPfbd+p0akRjv6UpWzWJl+pfOMSs+QkAeNRUp0fPLZI=
 github.com/newrelic/go-agent/v3 v3.24.0/go.mod h1:7GnP0o5ZwEsnC001iDSoZRJ63jS6AtoAOggpg5XVJh8=
+github.com/newrelic/go-agent/v3 v3.24.1 h1:qJc+cKtc0v9vrsnMHuHy4r6Fh9iigNJj3O3KUKPOD0M=
+github.com/newrelic/go-agent/v3 v3.24.1/go.mod h1:29qGunRQA4+IGWn5WRiqVKA+pqYsCIk4ZK9nwygbKbc=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pkg/errors v0.9.1 h1:FEBLx1zS214owpjy7qsBeixbURkuhQAwrK5UwLGTwt4=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
