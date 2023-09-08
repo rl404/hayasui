@@ -9,7 +9,7 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/newrelic/go-agent/v3 v3.24.1
 	github.com/rl404/fairy v0.23.0
-	github.com/rl404/verniy v0.2.0
+	github.com/rl404/verniy v0.3.0
 	github.com/spf13/cobra v1.7.0
 	golang.org/x/text v0.13.0
 )
