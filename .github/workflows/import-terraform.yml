@@ -3,7 +3,7 @@ name: import terraform
 on: workflow_dispatch
 
 jobs:
-  tag:
+  import_terraform:
     name: Import Terraform
     runs-on: ubuntu-latest
     defaults:
