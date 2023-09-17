@@ -12,7 +12,7 @@ jobs:
     outputs:
       img_tag: ${{ steps.tag.outputs.img_tag }}
     steps:
-      - name: Check out code into the Go module directory
+      - name: Check out code
         uses: actions/checkout@v4
       - name: Remove 'v' from tag
         id: tag

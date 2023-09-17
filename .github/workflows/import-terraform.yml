@@ -10,7 +10,8 @@ jobs:
       run:
         working-directory: ./deployment/terraform
     steps:
-      - uses: actions/checkout@v4
+      - name: Check out code
+        uses: actions/checkout@v4
       - name: Auth gcloud
         uses: google-github-actions/auth@v1
         with:
@@ -39,7 +40,7 @@ jobs:
           hys_log_json             = "${{ secrets.HYS_LOG_JSON }}"
           hys_newrelic_license_key = "${{ secrets.HYS_NEWRELIC_LICENSE_KEY }}"
           EOF
-         name: Init Terraform
+      - name: Init Terraform
         run: terraform init -backend-config "bucket=${{ secrets.GCS_BUCKET }}"
         env:
           GOOGLE_CREDENTIALS: ${{ secrets.GCP_CREDENTIALS }}
