@@ -51,15 +51,15 @@ resource "kubernetes_deployment" "bot" {
           }
           env {
             name  = "HYS_LOG_LEVEL"
-            value = hys_log_level
+            value = var.hys_log_level
           }
           env {
             name  = "HYS_LOG_JSON"
-            value = hys_log_json
+            value = var.hys_log_json
           }
           env {
             name  = "HYS_NEWRELIC_LICENSE_KEY"
-            value = hys_newrelic_license_key
+            value = var.hys_newrelic_license_key
           }
         }
       }
