@@ -58,7 +58,7 @@ jobs:
             rl404/hayasui:${{ env.IMG_TAG }}
             ghcr.io/rl404/hayasui:latest
             ghcr.io/rl404/hayasui:${{ env.IMG_TAG }}
-            ${{ secrets.GCR_HOSTNAME }}/${{ secrets.GCP_PROJECT_ID }}/tt:${{ env.IMG_TAG }}
+            ${{ secrets.GCR_HOSTNAME }}/${{ secrets.GCP_PROJECT_ID }}/hayasui:${{ env.IMG_TAG }}
   deploy:
     name: Deploy
     needs: publish_image
