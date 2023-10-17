@@ -7,7 +7,6 @@ import (
 	"time"
 
 	"github.com/newrelic/go-agent/v3/newrelic"
-	"github.com/rl404/fairy/cache"
 	_nr "github.com/rl404/fairy/log/newrelic"
 	nrCache "github.com/rl404/fairy/monitoring/newrelic/cache"
 	_bot "github.com/rl404/hayasui/internal/delivery/bot"
@@ -22,6 +21,7 @@ import (
 	templateClient "github.com/rl404/hayasui/internal/domain/template/repository/client"
 	"github.com/rl404/hayasui/internal/service"
 	"github.com/rl404/hayasui/internal/utils"
+	"github.com/rl404/hayasui/pkg/cache"
 )
 
 func bot() error {

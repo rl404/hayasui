@@ -30,14 +30,14 @@ Hayasui is a discord bot to search and provide you anime/manga/character/people 
    ```
 2. Rename `sample.env` to `.env` and modify according to your configuration.
 
-| Name                  |  Default   | Description                                |
-| --------------------- | :--------: | ------------------------------------------ |
-| `HYS_DISCORD_TOKEN`\* |            | Discord bot token.                         |
-| `HYS_DISCORD_PREFIX`  |    `>`     | Discord bot prefix command.                |
-| `HYS_CACHE_DIALECT`   | `inmemory` | Cache type (`redis`,`inmemory`,`memcache`) |
-| `HYS_CACHE_ADDRESS`   |            | Cache address.                             |
-| `HYS_CACHE_PASSWORD`  |            | Cache passowrd.                            |
-| `HYS_CACHE_TIME`      |   `24h`    | Cache duration.                            |
+| Name                  |  Default   | Description                     |
+| --------------------- | :--------: | ------------------------------- |
+| `HYS_DISCORD_TOKEN`\* |            | Discord bot token.              |
+| `HYS_DISCORD_PREFIX`  |    `>`     | Discord bot prefix command.     |
+| `HYS_CACHE_DIALECT`   | `inmemory` | Cache type (`redis`,`inmemory`) |
+| `HYS_CACHE_ADDRESS`   |            | Cache address.                  |
+| `HYS_CACHE_PASSWORD`  |            | Cache passowrd.                 |
+| `HYS_CACHE_TIME`      |   `24h`    | Cache duration.                 |
 
 3. Run.
 

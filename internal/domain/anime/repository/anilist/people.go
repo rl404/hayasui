@@ -3,8 +3,8 @@ package anilist
 import (
 	"context"
 
+	"github.com/rl404/fairy/errors/stack"
 	"github.com/rl404/hayasui/internal/domain/anime/entity"
-	"github.com/rl404/hayasui/internal/errors"
 	"github.com/rl404/hayasui/internal/utils"
 	"github.com/rl404/verniy"
 )
@@ -25,7 +25,7 @@ func (c *Client) GetPeople(ctx context.Context, id int) (*entity.People, error) 
 		verniy.StaffFieldDescription,
 	)
 	if err != nil {
-		return nil, errors.Wrap(ctx, err)
+		return nil, stack.Wrap(ctx, err)
 	}
 
 	return &entity.People{
@@ -55,7 +55,7 @@ func (c *Client) SearchPeople(ctx context.Context, query string, page int) ([]en
 		),
 	)
 	if err != nil {
-		return nil, 0, errors.Wrap(ctx, err)
+		return nil, 0, stack.Wrap(ctx, err)
 	}
 
 	res := make([]entity.People, len(data.Staff))

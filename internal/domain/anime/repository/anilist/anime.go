@@ -3,8 +3,8 @@ package anilist
 import (
 	"context"
 
+	"github.com/rl404/fairy/errors/stack"
 	"github.com/rl404/hayasui/internal/domain/anime/entity"
-	"github.com/rl404/hayasui/internal/errors"
 	"github.com/rl404/hayasui/internal/utils"
 	"github.com/rl404/verniy"
 )
@@ -38,7 +38,7 @@ func (c *Client) GetAnime(ctx context.Context, id int) (*entity.Anime, error) {
 		),
 	)
 	if err != nil {
-		return nil, errors.Wrap(ctx, err)
+		return nil, stack.Wrap(ctx, err)
 	}
 
 	return &entity.Anime{
@@ -82,7 +82,7 @@ func (c *Client) SearchAnime(ctx context.Context, query string, page int) ([]ent
 		verniy.MediaFieldAverageScore,
 	)
 	if err != nil {
-		return nil, 0, errors.Wrap(ctx, err)
+		return nil, 0, stack.Wrap(ctx, err)
 	}
 
 	res := make([]entity.Anime, len(data.Media))

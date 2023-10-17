@@ -4,7 +4,7 @@ import (
 	"context"
 
 	"github.com/bwmarrin/discordgo"
-	"github.com/rl404/hayasui/internal/errors"
+	"github.com/rl404/fairy/errors/stack"
 )
 
 // Client is discord client.
@@ -52,7 +52,7 @@ func (c *Client) AddReactionHandler(handler func(*discordgo.Session, *discordgo.
 func (c *Client) SendMessage(ctx context.Context, cID, content string) (string, error) {
 	m, err := c.session.ChannelMessageSend(cID, content)
 	if err != nil {
-		return "", errors.Wrap(ctx, err)
+		return "", stack.Wrap(ctx, err)
 	}
 	return m.ID, nil
 }
@@ -61,7 +61,7 @@ func (c *Client) SendMessage(ctx context.Context, cID, content string) (string, 
 func (c *Client) SendMessageEmbed(ctx context.Context, cID string, content *discordgo.MessageEmbed) (string, error) {
 	m, err := c.session.ChannelMessageSendEmbed(cID, content)
 	if err != nil {
-		return "", errors.Wrap(ctx, err)
+		return "", stack.Wrap(ctx, err)
 	}
 	return m.ID, nil
 }
@@ -70,7 +70,7 @@ func (c *Client) SendMessageEmbed(ctx context.Context, cID string, content *disc
 func (c *Client) EditMessage(ctx context.Context, cID, mID, content string) (string, error) {
 	m, err := c.session.ChannelMessageEdit(cID, mID, content)
 	if err != nil {
-		return "", errors.Wrap(ctx, err)
+		return "", stack.Wrap(ctx, err)
 	}
 	return m.ID, nil
 }
@@ -79,7 +79,7 @@ func (c *Client) EditMessage(ctx context.Context, cID, mID, content string) (str
 func (c *Client) EditMessageEmbed(ctx context.Context, cID, mID string, content *discordgo.MessageEmbed) (string, error) {
 	m, err := c.session.ChannelMessageEditEmbed(cID, mID, content)
 	if err != nil {
-		return "", errors.Wrap(ctx, err)
+		return "", stack.Wrap(ctx, err)
 	}
 	return m.ID, nil
 }
@@ -87,7 +87,7 @@ func (c *Client) EditMessageEmbed(ctx context.Context, cID, mID string, content 
 // AddMessageReaction to add reaction to message.
 func (c *Client) AddMessageReaction(ctx context.Context, channelID string, messageID string, content string) error {
 	if err := c.session.MessageReactionAdd(channelID, messageID, content); err != nil {
-		return errors.Wrap(ctx, err)
+		return stack.Wrap(ctx, err)
 	}
 	return nil
 }
@@ -95,7 +95,7 @@ func (c *Client) AddMessageReaction(ctx context.Context, channelID string, messa
 // RemoveMessageReaction to remove reaction to message.
 func (c *Client) RemoveMessageReaction(ctx context.Context, channelID, messageID, emojiID, userID string) error {
 	if err := c.session.MessageReactionRemove(channelID, messageID, emojiID, userID); err != nil {
-		return errors.Wrap(ctx, err)
+		return stack.Wrap(ctx, err)
 	}
 	return nil
 }
