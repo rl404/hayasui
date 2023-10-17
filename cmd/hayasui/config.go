@@ -5,10 +5,10 @@ import (
 
 	"github.com/joho/godotenv"
 	"github.com/kelseyhightower/envconfig"
-	"github.com/rl404/fairy/cache"
-	"github.com/rl404/fairy/log"
 	"github.com/rl404/hayasui/internal/errors"
 	"github.com/rl404/hayasui/internal/utils"
+	"github.com/rl404/hayasui/pkg/cache"
+	"github.com/rl404/hayasui/pkg/log"
 )
 
 type config struct {
@@ -24,14 +24,13 @@ type discordConfig struct {
 }
 
 type cacheConfig struct {
-	Dialect  string        `envconfig:"DIALECT" validate:"required,oneof=redis inmemory memcache" mod:"default=inmemory,no_space,lcase"`
+	Dialect  string        `envconfig:"DIALECT" validate:"required,oneof=redis inmemory" mod:"default=inmemory,no_space,lcase"`
 	Address  string        `envconfig:"ADDRESS"`
 	Password string        `envconfig:"PASSWORD"`
 	Time     time.Duration `envconfig:"TIME" validate:"required,gt=0" mod:"default=24h"`
 }
 
 type logConfig struct {
-	Type  log.LogType  `envconfig:"TYPE" default:"2"`
 	Level log.LogLevel `envconfig:"LEVEL" default:"-1"`
 	JSON  bool         `envconfig:"JSON" default:"false"`
 	Color bool         `envconfig:"COLOR" default:"true"`
@@ -48,7 +47,6 @@ const envPrefix = "HYS"
 var cacheType = map[string]cache.CacheType{
 	"redis":    cache.Redis,
 	"inmemory": cache.InMemory,
-	"memcache": cache.Memcache,
 }
 
 func getConfig() (*config, error) {
@@ -72,7 +70,7 @@ func getConfig() (*config, error) {
 	}
 
 	// Init global log.
-	if err := utils.InitLog(cfg.Log.Type, cfg.Log.Level, cfg.Log.JSON, cfg.Log.Color); err != nil {
+	if err := utils.InitLog(cfg.Log.Level, cfg.Log.JSON, cfg.Log.Color); err != nil {
 		return nil, err
 	}
 

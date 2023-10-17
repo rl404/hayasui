@@ -4,9 +4,9 @@ import (
 	"context"
 
 	"github.com/rl404/fairy/cache"
+	"github.com/rl404/fairy/errors/stack"
 	"github.com/rl404/hayasui/internal/domain/anime/entity"
 	"github.com/rl404/hayasui/internal/domain/anime/repository"
-	"github.com/rl404/hayasui/internal/errors"
 	"github.com/rl404/hayasui/internal/utils"
 )
 
@@ -33,11 +33,11 @@ func (c *Cache) GetAnime(ctx context.Context, id int) (data *entity.Anime, _ err
 
 	data, err := c.repo.GetAnime(ctx, id)
 	if err != nil {
-		return nil, errors.Wrap(ctx, err)
+		return nil, stack.Wrap(ctx, err)
 	}
 
 	if err := c.cacher.Set(ctx, key, data); err != nil {
-		return nil, errors.Wrap(ctx, err)
+		return nil, stack.Wrap(ctx, err)
 	}
 
 	return data, nil
@@ -52,11 +52,11 @@ func (c *Cache) GetManga(ctx context.Context, id int) (data *entity.Manga, _ err
 
 	data, err := c.repo.GetManga(ctx, id)
 	if err != nil {
-		return nil, errors.Wrap(ctx, err)
+		return nil, stack.Wrap(ctx, err)
 	}
 
 	if err := c.cacher.Set(ctx, key, data); err != nil {
-		return nil, errors.Wrap(ctx, err)
+		return nil, stack.Wrap(ctx, err)
 	}
 
 	return data, nil
@@ -71,11 +71,11 @@ func (c *Cache) GetCharacter(ctx context.Context, id int) (data *entity.Characte
 
 	data, err := c.repo.GetCharacter(ctx, id)
 	if err != nil {
-		return nil, errors.Wrap(ctx, err)
+		return nil, stack.Wrap(ctx, err)
 	}
 
 	if err := c.cacher.Set(ctx, key, data); err != nil {
-		return nil, errors.Wrap(ctx, err)
+		return nil, stack.Wrap(ctx, err)
 	}
 
 	return data, nil
@@ -90,11 +90,11 @@ func (c *Cache) GetPeople(ctx context.Context, id int) (data *entity.People, _ e
 
 	data, err := c.repo.GetPeople(ctx, id)
 	if err != nil {
-		return nil, errors.Wrap(ctx, err)
+		return nil, stack.Wrap(ctx, err)
 	}
 
 	if err := c.cacher.Set(ctx, key, data); err != nil {
-		return nil, errors.Wrap(ctx, err)
+		return nil, stack.Wrap(ctx, err)
 	}
 
 	return data, nil
@@ -121,7 +121,7 @@ func (c *Cache) SearchAnime(ctx context.Context, query string, page int) ([]enti
 	data.Count = cnt
 
 	if err := c.cacher.Set(ctx, key, data); err != nil {
-		return nil, 0, errors.Wrap(ctx, err)
+		return nil, 0, stack.Wrap(ctx, err)
 	}
 
 	return d, cnt, nil
@@ -148,7 +148,7 @@ func (c *Cache) SearchManga(ctx context.Context, query string, page int) ([]enti
 	data.Count = cnt
 
 	if err := c.cacher.Set(ctx, key, data); err != nil {
-		return nil, 0, errors.Wrap(ctx, err)
+		return nil, 0, stack.Wrap(ctx, err)
 	}
 
 	return d, cnt, nil
@@ -175,7 +175,7 @@ func (c *Cache) SearchCharacter(ctx context.Context, query string, page int) ([]
 	data.Count = cnt
 
 	if err := c.cacher.Set(ctx, key, data); err != nil {
-		return nil, 0, errors.Wrap(ctx, err)
+		return nil, 0, stack.Wrap(ctx, err)
 	}
 
 	return d, cnt, nil
@@ -202,7 +202,7 @@ func (c *Cache) SearchPeople(ctx context.Context, query string, page int) ([]ent
 	data.Count = cnt
 
 	if err := c.cacher.Set(ctx, key, data); err != nil {
-		return nil, 0, errors.Wrap(ctx, err)
+		return nil, 0, stack.Wrap(ctx, err)
 	}
 
 	return d, cnt, nil

@@ -6,26 +6,26 @@ import (
 	"strings"
 
 	"github.com/bwmarrin/discordgo"
+	"github.com/rl404/fairy/errors/stack"
 	reactionEntity "github.com/rl404/hayasui/internal/domain/reaction/entity"
 	"github.com/rl404/hayasui/internal/domain/template/entity"
-	"github.com/rl404/hayasui/internal/errors"
 )
 
 // HandlePeople to handle people.
 func (s *service) HandlePeople(ctx context.Context, m *discordgo.MessageCreate, args []string) error {
 	if len(args) != 2 {
-		return errors.Wrap(ctx, s.handleInvalid(ctx, m.ChannelID))
+		return stack.Wrap(ctx, s.handleInvalid(ctx, m.ChannelID))
 	}
 
 	id, err := strconv.Atoi(args[1])
 	if err != nil || id <= 0 {
-		return errors.Wrap(ctx, s.handleInvalidID(ctx, m.ChannelID))
+		return stack.Wrap(ctx, s.handleInvalidID(ctx, m.ChannelID))
 	}
 
 	// Get data.
 	data, err := s.anime.GetPeople(ctx, id)
 	if err != nil {
-		return errors.Wrap(ctx, s.handleError(ctx, m.ChannelID, errors.Wrap(ctx, err)))
+		return stack.Wrap(ctx, s.handleError(ctx, m.ChannelID, stack.Wrap(ctx, err)))
 	}
 
 	// Send message.
@@ -36,12 +36,12 @@ func (s *service) HandlePeople(ctx context.Context, m *discordgo.MessageCreate, 
 		Image: data.Image,
 	}, entity.InfoSimple))
 	if err != nil {
-		return errors.Wrap(ctx, s.handleError(ctx, m.ChannelID, errors.Wrap(ctx, err)))
+		return stack.Wrap(ctx, s.handleError(ctx, m.ChannelID, stack.Wrap(ctx, err)))
 	}
 
 	// Add reaction.
 	if err := s.discord.AddMessageReaction(ctx, m.ChannelID, msg, entity.ReactionInfo); err != nil {
-		return errors.Wrap(ctx, s.handleError(ctx, m.ChannelID, errors.Wrap(ctx, err)))
+		return stack.Wrap(ctx, s.handleError(ctx, m.ChannelID, stack.Wrap(ctx, err)))
 	}
 
 	// Save reaction.
@@ -50,7 +50,7 @@ func (s *service) HandlePeople(ctx context.Context, m *discordgo.MessageCreate, 
 		ID:      data.ID,
 		Info:    entity.InfoSimple,
 	}); err != nil {
-		return errors.Wrap(ctx, s.handleError(ctx, m.ChannelID, errors.Wrap(ctx, err)))
+		return stack.Wrap(ctx, s.handleError(ctx, m.ChannelID, stack.Wrap(ctx, err)))
 	}
 
 	return nil
@@ -70,7 +70,7 @@ func (s *service) HandlePeopleReaction(ctx context.Context, m *discordgo.Message
 	// Get data.
 	data, err := s.anime.GetPeople(ctx, cmd.ID)
 	if err != nil {
-		return errors.Wrap(ctx, s.handleError(ctx, m.ChannelID, errors.Wrap(ctx, err)))
+		return stack.Wrap(ctx, s.handleError(ctx, m.ChannelID, stack.Wrap(ctx, err)))
 	}
 
 	// Edit message.
@@ -88,12 +88,12 @@ func (s *service) HandlePeopleReaction(ctx context.Context, m *discordgo.Message
 		Image:    data.Image,
 	}, cmd.Info))
 	if err != nil {
-		return errors.Wrap(ctx, s.handleError(ctx, m.ChannelID, errors.Wrap(ctx, err)))
+		return stack.Wrap(ctx, s.handleError(ctx, m.ChannelID, stack.Wrap(ctx, err)))
 	}
 
 	// Save reaction.
 	if err := s.reaction.SetCommand(ctx, msg, cmd); err != nil {
-		return errors.Wrap(ctx, s.handleError(ctx, m.ChannelID, errors.Wrap(ctx, err)))
+		return stack.Wrap(ctx, s.handleError(ctx, m.ChannelID, stack.Wrap(ctx, err)))
 	}
 
 	return nil
@@ -103,7 +103,7 @@ func (s *service) handleSearchPeople(ctx context.Context, m *discordgo.MessageCr
 	// Get data.
 	data, cnt, err := s.anime.SearchPeople(ctx, strings.Join(args[2:], " "), 1)
 	if err != nil {
-		return errors.Wrap(ctx, s.handleError(ctx, m.ChannelID, errors.Wrap(ctx, err)))
+		return stack.Wrap(ctx, s.handleError(ctx, m.ChannelID, stack.Wrap(ctx, err)))
 	}
 
 	templateDatas := make([]entity.Search, len(data))
@@ -119,13 +119,13 @@ func (s *service) handleSearchPeople(ctx context.Context, m *discordgo.MessageCr
 	// Send message.
 	msg, err := s.discord.SendMessageEmbed(ctx, m.ChannelID, s.template.GetSearch(templateDatas, entity.TypePeople, entity.InfoSimple, 1, lastPage))
 	if err != nil {
-		return errors.Wrap(ctx, s.handleError(ctx, m.ChannelID, errors.Wrap(ctx, err)))
+		return stack.Wrap(ctx, s.handleError(ctx, m.ChannelID, stack.Wrap(ctx, err)))
 	}
 
 	// Add reaction.
 	for _, r := range entity.ReactionPagination {
 		if err := s.discord.AddMessageReaction(ctx, m.ChannelID, msg, r); err != nil {
-			return errors.Wrap(ctx, s.handleError(ctx, m.ChannelID, errors.Wrap(ctx, err)))
+			return stack.Wrap(ctx, s.handleError(ctx, m.ChannelID, stack.Wrap(ctx, err)))
 		}
 	}
 
@@ -138,7 +138,7 @@ func (s *service) handleSearchPeople(ctx context.Context, m *discordgo.MessageCr
 		LastPage: lastPage,
 		Info:     entity.InfoSimple,
 	}); err != nil {
-		return errors.Wrap(ctx, s.handleError(ctx, m.ChannelID, errors.Wrap(ctx, err)))
+		return stack.Wrap(ctx, s.handleError(ctx, m.ChannelID, stack.Wrap(ctx, err)))
 	}
 
 	return nil
@@ -173,7 +173,7 @@ func (s *service) handleSearchPeopleReaction(ctx context.Context, m *discordgo.M
 	// Get data.
 	data, cnt, err := s.anime.SearchPeople(ctx, cmd.Query, cmd.Page)
 	if err != nil {
-		return errors.Wrap(ctx, s.handleError(ctx, m.ChannelID, errors.Wrap(ctx, err)))
+		return stack.Wrap(ctx, s.handleError(ctx, m.ChannelID, stack.Wrap(ctx, err)))
 	}
 
 	templateDatas := make([]entity.Search, len(data))
@@ -189,12 +189,12 @@ func (s *service) handleSearchPeopleReaction(ctx context.Context, m *discordgo.M
 	// Edit message.
 	msg, err := s.discord.EditMessageEmbed(ctx, m.ChannelID, m.MessageID, s.template.GetSearch(templateDatas, entity.TypePeople, cmd.Info, cmd.Page, cmd.LastPage))
 	if err != nil {
-		return errors.Wrap(ctx, s.handleError(ctx, m.ChannelID, errors.Wrap(ctx, err)))
+		return stack.Wrap(ctx, s.handleError(ctx, m.ChannelID, stack.Wrap(ctx, err)))
 	}
 
 	// Save reaction.
 	if err := s.reaction.SetCommand(ctx, msg, cmd); err != nil {
-		return errors.Wrap(ctx, s.handleError(ctx, m.ChannelID, errors.Wrap(ctx, err)))
+		return stack.Wrap(ctx, s.handleError(ctx, m.ChannelID, stack.Wrap(ctx, err)))
 	}
 
 	return nil

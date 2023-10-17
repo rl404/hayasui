@@ -7,12 +7,12 @@ import (
 
 	"github.com/bwmarrin/discordgo"
 	"github.com/newrelic/go-agent/v3/newrelic"
-	"github.com/rl404/hayasui/internal/errors"
+	"github.com/rl404/fairy/errors/stack"
 )
 
 func (b *Bot) messageHandler(nrApp *newrelic.Application) func(*discordgo.Session, *discordgo.MessageCreate) {
 	return func(s *discordgo.Session, m *discordgo.MessageCreate) {
-		ctx := errors.Init(context.Background())
+		ctx := stack.Init(context.Background())
 		defer b.log(ctx)
 
 		// Ignore all messages created by the bot itself.
@@ -39,19 +39,19 @@ func (b *Bot) messageHandler(nrApp *newrelic.Application) func(*discordgo.Sessio
 
 		switch args[0] {
 		case "ping":
-			errors.Wrap(ctx, b.service.HandlePing(ctx, m))
+			stack.Wrap(ctx, b.service.HandlePing(ctx, m))
 		case "help", "h":
-			errors.Wrap(ctx, b.service.HandleHelp(ctx, m))
+			stack.Wrap(ctx, b.service.HandleHelp(ctx, m))
 		case "search", "s":
-			errors.Wrap(ctx, b.service.HandleSearch(ctx, m, args))
+			stack.Wrap(ctx, b.service.HandleSearch(ctx, m, args))
 		case "anime", "a":
-			errors.Wrap(ctx, b.service.HandleAnime(ctx, m, args))
+			stack.Wrap(ctx, b.service.HandleAnime(ctx, m, args))
 		case "manga", "m":
-			errors.Wrap(ctx, b.service.HandleManga(ctx, m, args))
+			stack.Wrap(ctx, b.service.HandleManga(ctx, m, args))
 		case "character", "char", "c":
-			errors.Wrap(ctx, b.service.HandleCharacter(ctx, m, args))
+			stack.Wrap(ctx, b.service.HandleCharacter(ctx, m, args))
 		case "people", "p":
-			errors.Wrap(ctx, b.service.HandlePeople(ctx, m, args))
+			stack.Wrap(ctx, b.service.HandlePeople(ctx, m, args))
 		}
 	}
 }
