@@ -8,7 +8,6 @@ import (
 	"github.com/rl404/hayasui/internal/errors"
 	"github.com/rl404/hayasui/internal/utils"
 	"github.com/rl404/hayasui/pkg/cache"
-	"github.com/rl404/hayasui/pkg/log"
 )
 
 type config struct {
@@ -31,9 +30,9 @@ type cacheConfig struct {
 }
 
 type logConfig struct {
-	Level log.LogLevel `envconfig:"LEVEL" default:"-1"`
-	JSON  bool         `envconfig:"JSON" default:"false"`
-	Color bool         `envconfig:"COLOR" default:"true"`
+	Level utils.LogLevel `envconfig:"LEVEL" default:"-1"`
+	JSON  bool           `envconfig:"JSON" default:"false"`
+	Color bool           `envconfig:"COLOR" default:"true"`
 }
 
 type newrelicConfig struct {
@@ -70,9 +69,7 @@ func getConfig() (*config, error) {
 	}
 
 	// Init global log.
-	if err := utils.InitLog(cfg.Log.Level, cfg.Log.JSON, cfg.Log.Color); err != nil {
-		return nil, err
-	}
+	utils.InitLog(cfg.Log.Level, cfg.Log.JSON, cfg.Log.Color)
 
 	return &cfg, nil
 }
