@@ -70,6 +70,8 @@ github.com/newrelic/go-agent/v3 v3.29.0 h1:Bc1D3DoOkpJs6aIzhOjUp+yIKJ2RfZ+LMQemZ
 github.com/newrelic/go-agent/v3 v3.29.0/go.mod h1:9utrgxlSryNqRrTvII2XBL+0lpofXbqXApvVWPpbzUg=
 github.com/newrelic/go-agent/v3 v3.29.1 h1:OINNRev5ImiyRq0IUYwhfTmtqQgQFYyDNQEtbRFAi+k=
 github.com/newrelic/go-agent/v3 v3.29.1/go.mod h1:9utrgxlSryNqRrTvII2XBL+0lpofXbqXApvVWPpbzUg=
+github.com/newrelic/go-agent/v3 v3.30.0 h1:ZXHCT/Cot4iIPwcegCZURuRQOsfmGA6wilW+S3bfBjY=
+github.com/newrelic/go-agent/v3 v3.30.0/go.mod h1:9utrgxlSryNqRrTvII2XBL+0lpofXbqXApvVWPpbzUg=
 github.com/pkg/errors v0.8.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pkg/errors v0.9.1/go.mod h1:bwawxfHBFNV+L2hUp1rHADufV3IMtnDRdf1r5NINEl0=
 github.com/pmezard/go-difflib v1.0.0 h1:4DBwDE0NGyQoBHbLQYPwSUPoCMWR5BEzIk/f1lZbAQM=
@@ -80,6 +82,8 @@ github.com/rl404/fairy v0.25.2 h1:WckIKGYi9LlEA+MZZ/ws5i5khMgPDgxcQ17iaiQAtAs=
 github.com/rl404/fairy v0.25.2/go.mod h1:TcCmMFf7qg9+L8pcvBogVyM3jHr58kSxzxgsO5KzaWM=
 github.com/rl404/verniy v0.3.0 h1:hR26YGOHz9VDIMQ5Ak+GT+N7bf/W1KLokPJCUbUWQjc=
 github.com/rl404/verniy v0.3.0/go.mod h1:PdbuRSix3FFz3zzaJ+WXxE3Knit+jIYYMHYPs3FdQM4=
+github.com/rl404/verniy v0.3.1 h1:fjXHpVWchMmg0x5lBeND1+C18CKtfR3iMv0nzbGv7bQ=
+github.com/rl404/verniy v0.3.1/go.mod h1:PdbuRSix3FFz3zzaJ+WXxE3Knit+jIYYMHYPs3FdQM4=
 github.com/rs/xid v1.5.0/go.mod h1:trrq9SKmegXys3aeAKXMUTdJsYXVwGY3RLcfgqegfbg=
 github.com/rs/zerolog v1.31.0 h1:FcTR3NnLWW+NnTwwhFWiJSZr4ECLpqCm6QsEnyvbV4A=
 github.com/rs/zerolog v1.31.0/go.mod h1:/7mN4D5sKwJLZQ2b/znpjC3/GQWY/xaDXUM0kKWRHss=
