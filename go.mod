@@ -2,7 +2,7 @@ module github.com/rl404/hayasui
 
 go 1.22.1
 
-toolchain go1.23.3
+toolchain go1.23.4
 
 require (
 	github.com/JohannesKaufmann/html-to-markdown v1.6.0
