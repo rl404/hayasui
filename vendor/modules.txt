@@ -2,8 +2,6 @@
 ## explicit; go 1.13
 github.com/JohannesKaufmann/html-to-markdown
 github.com/JohannesKaufmann/html-to-markdown/escape
-# github.com/JohannesKaufmann/html-to-markdown/v2 v2.2.1
-## explicit; go 1.22.1
 # github.com/PuerkitoBio/goquery v1.9.2
 ## explicit; go 1.18
 github.com/PuerkitoBio/goquery
@@ -47,8 +45,6 @@ github.com/go-playground/universal-translator
 # github.com/go-playground/validator/v10 v10.22.0
 ## explicit; go 1.18
 github.com/go-playground/validator/v10
-# github.com/golang/protobuf v1.5.4
-## explicit; go 1.17
 # github.com/gorilla/websocket v1.4.2
 ## explicit; go 1.12
 github.com/gorilla/websocket
@@ -123,6 +119,8 @@ github.com/rl404/verniy/internal/limiter
 github.com/rs/zerolog
 github.com/rs/zerolog/internal/cbor
 github.com/rs/zerolog/internal/json
+# github.com/sebdah/goldie/v2 v2.5.5
+## explicit; go 1.12
 # github.com/segmentio/go-camelcase v0.0.0-20160726192923-7085f1e3c734
 ## explicit
 github.com/segmentio/go-camelcase
@@ -135,6 +133,8 @@ github.com/spf13/cobra
 # github.com/spf13/pflag v1.0.5
 ## explicit; go 1.12
 github.com/spf13/pflag
+# github.com/yuin/goldmark v1.7.8
+## explicit; go 1.19
 # golang.org/x/crypto v0.29.0
 ## explicit; go 1.20
 golang.org/x/crypto/internal/alias
