@@ -2,6 +2,8 @@
 ## explicit; go 1.13
 github.com/JohannesKaufmann/html-to-markdown
 github.com/JohannesKaufmann/html-to-markdown/escape
+# github.com/JohannesKaufmann/html-to-markdown/v2 v2.2.1
+## explicit; go 1.22.1
 # github.com/PuerkitoBio/goquery v1.9.2
 ## explicit; go 1.18
 github.com/PuerkitoBio/goquery
