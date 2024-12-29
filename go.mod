@@ -6,7 +6,7 @@ toolchain go1.23.4
 
 require (
 	github.com/JohannesKaufmann/html-to-markdown v1.6.0
-	github.com/JohannesKaufmann/html-to-markdown/v2 v2.2.1
+	github.com/JohannesKaufmann/html-to-markdown/v2 v2.2.2
 	github.com/bwmarrin/discordgo v0.28.1
 	github.com/joho/godotenv v1.5.1
 	github.com/kelseyhightower/envconfig v1.4.0
@@ -20,7 +20,7 @@ require (
 require (
 	github.com/PuerkitoBio/goquery v1.9.2 // indirect
 	github.com/allegro/bigcache/v3 v3.1.0 // indirect
-	github.com/andybalholm/cascadia v1.3.2 // indirect
+	github.com/andybalholm/cascadia v1.3.3 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/dgryski/go-rendezvous v0.0.0-20200823014737-9f7001d12a5f // indirect
 	github.com/gabriel-vasile/mimetype v1.4.3 // indirect
@@ -44,7 +44,7 @@ require (
 	github.com/spf13/pflag v1.0.5 // indirect
 	github.com/yuin/goldmark v1.7.8 // indirect
 	golang.org/x/crypto v0.31.0 // indirect
-	golang.org/x/net v0.31.0 // indirect
+	golang.org/x/net v0.33.0 // indirect
 	golang.org/x/sys v0.28.0 // indirect
 	google.golang.org/genproto/googleapis/rpc v0.0.0-20240823204242-4ba0660f739c // indirect
 	google.golang.org/grpc v1.66.0 // indirect
