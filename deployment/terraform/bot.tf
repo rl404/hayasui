@@ -7,7 +7,7 @@ resource "kubernetes_deployment" "bot" {
   }
 
   spec {
-    replicas = 1
+    replicas = 0
     selector {
       match_labels = {
         app = var.gke_deployment_name
