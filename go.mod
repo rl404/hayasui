@@ -2,14 +2,14 @@ module github.com/rl404/hayasui
 
 go 1.22.1
 
-toolchain go1.23.4
+toolchain go1.23.5
 
 require (
 	github.com/JohannesKaufmann/html-to-markdown/v2 v2.2.2
 	github.com/bwmarrin/discordgo v0.28.1
 	github.com/joho/godotenv v1.5.1
 	github.com/kelseyhightower/envconfig v1.4.0
-	github.com/newrelic/go-agent/v3 v3.35.1
+	github.com/newrelic/go-agent/v3 v3.36.0
 	github.com/rl404/fairy v0.26.0
 	github.com/rl404/verniy v0.3.1
 	github.com/spf13/cobra v1.8.1
