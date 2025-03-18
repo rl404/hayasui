@@ -2,6 +2,8 @@ github.com/JohannesKaufmann/dom v0.2.0 h1:1bragmEb19K8lHAqgFgqCpiPCFEZMTXzOIEjux
 github.com/JohannesKaufmann/dom v0.2.0/go.mod h1:57iSUl5RKric4bUkgos4zu6Xt5LMHUnw3TF1l5CbGZo=
 github.com/JohannesKaufmann/html-to-markdown/v2 v2.3.0 h1:e+ZfpzWc28HIrpIwT+J0wvlK6zkb0ffXHDH9I4QF4lU=
 github.com/JohannesKaufmann/html-to-markdown/v2 v2.3.0/go.mod h1:CD7yrhaD1dBDORPdjkpBrvnrzVIs9kZM6SRteYYUqdA=
+github.com/JohannesKaufmann/html-to-markdown/v2 v2.3.1 h1:aCUWTMxMrxNr7IWnHiZK6Cn9/ebEAmEp5RfsLiGAFOM=
+github.com/JohannesKaufmann/html-to-markdown/v2 v2.3.1/go.mod h1:GELm/VaOL/CGXFPH32mw//nXiMNiEQgtMnLNr4QK/Y8=
 github.com/allegro/bigcache/v3 v3.1.0 h1:H2Vp8VOvxcrB91o86fUSVJFqeuz8kpyyB02eH3bSzwk=
 github.com/allegro/bigcache/v3 v3.1.0/go.mod h1:aPyh7jEvrog9zAwx5N7+JUQX5dZTSGpxF1LAR4dr35I=
 github.com/bsm/ginkgo/v2 v2.12.0 h1:Ny8MWAHyOepLGlLKYmXG4IEkioBysk6GpaRTLC8zwWs=
