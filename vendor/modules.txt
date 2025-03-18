@@ -1,7 +1,7 @@
 # github.com/JohannesKaufmann/dom v0.2.0
 ## explicit; go 1.22.1
 github.com/JohannesKaufmann/dom
-# github.com/JohannesKaufmann/html-to-markdown/v2 v2.3.0
+# github.com/JohannesKaufmann/html-to-markdown/v2 v2.3.1
 ## explicit; go 1.22.1
 github.com/JohannesKaufmann/html-to-markdown/v2/collapse
 github.com/JohannesKaufmann/html-to-markdown/v2/converter
