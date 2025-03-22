@@ -87,7 +87,7 @@ github.com/newrelic/go-agent/v3/internal/logger
 github.com/newrelic/go-agent/v3/internal/sysinfo
 github.com/newrelic/go-agent/v3/internal/utilization
 github.com/newrelic/go-agent/v3/newrelic
-# github.com/redis/go-redis/v9 v9.6.1
+# github.com/redis/go-redis/v9 v9.6.3
 ## explicit; go 1.18
 github.com/redis/go-redis/v9
 github.com/redis/go-redis/v9/internal

@@ -34,7 +34,7 @@ require (
 	github.com/leodido/go-urn v1.4.0 // indirect
 	github.com/mattn/go-colorable v0.1.13 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
-	github.com/redis/go-redis/v9 v9.6.1 // indirect
+	github.com/redis/go-redis/v9 v9.6.3 // indirect
 	github.com/rs/zerolog v1.33.0 // indirect
 	github.com/segmentio/go-camelcase v0.0.0-20160726192923-7085f1e3c734 // indirect
 	github.com/segmentio/go-snakecase v1.2.0 // indirect
