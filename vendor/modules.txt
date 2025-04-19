@@ -113,7 +113,7 @@ github.com/rl404/fairy/monitoring/newrelic/cache
 github.com/rl404/fairy/pubsub
 github.com/rl404/fairy/validation
 github.com/rl404/fairy/validation/playground
-# github.com/rl404/verniy v0.3.1
+# github.com/rl404/verniy v0.3.2
 ## explicit; go 1.20
 github.com/rl404/verniy
 github.com/rl404/verniy/internal/limiter
