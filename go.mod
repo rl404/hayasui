@@ -11,7 +11,7 @@ require (
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/newrelic/go-agent/v3 v3.38.0
 	github.com/rl404/fairy v0.26.0
-	github.com/rl404/verniy v0.3.2
+	github.com/rl404/verniy v0.3.3
 	github.com/spf13/cobra v1.9.1
 	golang.org/x/text v0.24.0
 )
