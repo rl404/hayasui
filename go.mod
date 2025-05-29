@@ -5,8 +5,8 @@ go 1.23.0
 toolchain go1.24.3
 
 require (
-	github.com/JohannesKaufmann/html-to-markdown/v2 v2.3.2
-	github.com/bwmarrin/discordgo v0.28.1
+	github.com/JohannesKaufmann/html-to-markdown/v2 v2.3.3
+	github.com/bwmarrin/discordgo v0.29.0
 	github.com/joho/godotenv v1.5.1
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/newrelic/go-agent/v3 v3.39.0

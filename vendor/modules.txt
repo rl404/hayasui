@@ -1,7 +1,7 @@
 # github.com/JohannesKaufmann/dom v0.2.0
 ## explicit; go 1.22.1
 github.com/JohannesKaufmann/dom
-# github.com/JohannesKaufmann/html-to-markdown/v2 v2.3.2
+# github.com/JohannesKaufmann/html-to-markdown/v2 v2.3.3
 ## explicit; go 1.23.0
 github.com/JohannesKaufmann/html-to-markdown/v2/collapse
 github.com/JohannesKaufmann/html-to-markdown/v2/converter
@@ -15,7 +15,7 @@ github.com/JohannesKaufmann/html-to-markdown/v2/plugin/commonmark
 ## explicit; go 1.16
 github.com/allegro/bigcache/v3
 github.com/allegro/bigcache/v3/queue
-# github.com/bwmarrin/discordgo v0.28.1
+# github.com/bwmarrin/discordgo v0.29.0
 ## explicit; go 1.13
 github.com/bwmarrin/discordgo
 # github.com/cespare/xxhash/v2 v2.3.0
