@@ -2,7 +2,7 @@ module github.com/rl404/hayasui
 
 go 1.23.0
 
-toolchain go1.24.3
+toolchain go1.24.4
 
 require (
 	github.com/JohannesKaufmann/html-to-markdown/v2 v2.3.3
@@ -13,7 +13,7 @@ require (
 	github.com/rl404/fairy v0.26.0
 	github.com/rl404/verniy v0.3.4
 	github.com/spf13/cobra v1.9.1
-	golang.org/x/text v0.25.0
+	golang.org/x/text v0.26.0
 )
 
 require (
