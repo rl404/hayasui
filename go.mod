@@ -10,7 +10,7 @@ require (
 	github.com/newrelic/go-agent/v3 v3.40.1
 	github.com/rl404/fairy v0.26.1
 	github.com/rl404/verniy v0.3.4
-	github.com/spf13/cobra v1.9.1
+	github.com/spf13/cobra v1.10.1
 	golang.org/x/text v0.28.0
 )
 
@@ -36,7 +36,7 @@ require (
 	github.com/rs/zerolog v1.34.0 // indirect
 	github.com/segmentio/go-camelcase v0.0.0-20160726192923-7085f1e3c734 // indirect
 	github.com/segmentio/go-snakecase v1.2.0 // indirect
-	github.com/spf13/pflag v1.0.6 // indirect
+	github.com/spf13/pflag v1.0.9 // indirect
 	golang.org/x/crypto v0.41.0 // indirect
 	golang.org/x/net v0.43.0 // indirect
 	golang.org/x/sys v0.35.0 // indirect
