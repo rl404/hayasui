@@ -3,14 +3,14 @@ module github.com/rl404/hayasui
 go 1.24.5
 
 require (
-	github.com/JohannesKaufmann/html-to-markdown/v2 v2.4.0
+	github.com/JohannesKaufmann/html-to-markdown/v2 v2.5.0
 	github.com/bwmarrin/discordgo v0.29.0
 	github.com/joho/godotenv v1.5.1
 	github.com/kelseyhightower/envconfig v1.4.0
 	github.com/newrelic/go-agent/v3 v3.42.0
 	github.com/rl404/fairy v0.26.1
 	github.com/rl404/verniy v0.3.4
-	github.com/spf13/cobra v1.10.1
+	github.com/spf13/cobra v1.10.2
 	golang.org/x/text v0.31.0
 )
 
