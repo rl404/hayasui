@@ -4,9 +4,13 @@ LABEL stage="hayasui_builder"
 WORKDIR /hayasui
 COPY . .
 WORKDIR /hayasui/cmd/hayasui
-RUN CGO_ENABLED=0 go build -a -installsuffix cgo -o hayasui
+RUN CGO_ENABLED=0 go build -mod=vendor -ldflags="-s -w" -o hayasui
 
 # New stage from scratch
 FROM alpine:3.24.3
 LABEL stage="hayasui_binary"
-COPY --from=go_builder /hayasui/cmd/hayasui/hayasui hayasui
+RUN adduser -D -u 10001 hayasui
+COPY --from=go_builder /hayasui/cmd/hayasui/hayasui /usr/local/bin/hayasui
+WORKDIR /home/hayasui
+USER hayasui
+ENTRYPOINT ["/usr/local/bin/hayasui"]
