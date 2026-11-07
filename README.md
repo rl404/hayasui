@@ -1,5 +1,10 @@
 # Hayasui
 
+![License: MIT](https://img.shields.io/github/license/rl404/hayasui)
+![GitHub tag (latest SemVer)](https://img.shields.io/github/v/tag/rl404/hayasui)
+[![Docker Image Size (latest semver)](https://img.shields.io/docker/image-size/rl404/hayasui)](https://hub.docker.com/r/rl404/hayasui)
+[![CI](https://github.com/rl404/hayasui/actions/workflows/ci.yml/badge.svg?event=push)](https://github.com/rl404/hayasui/actions/workflows/ci.yml)
+
 Hayasui is a discord bot to search and provide you anime/manga/character/people data with interactive response message.
 
 [Hayasui](https://en.wikipedia.org/wiki/Japanese_fleet_oiler_Hayasui)'s name is taken from a japanese fleet oiler which support and resupply fuel, ammo, and food for other ships. Also, [exists](https://kancolle.fandom.com/wiki/Hayasui) in Kantai Collection games and anime. To live up its name, this bot will 'supply' you with anime, manga, character, and people information.
@@ -25,19 +30,24 @@ Hayasui is a discord bot to search and provide you anime/manga/character/people 
 ## Steps
 
 1. Git clone this repo.
+
    ```bash
    git clone github.com/rl404/hayasui
    ```
+
 2. Rename `sample.env` to `.env` and modify according to your configuration.
 
-| Name                  |  Default   | Description                     |
-| --------------------- | :--------: | ------------------------------- |
-| `HYS_DISCORD_TOKEN`\* |            | Discord bot token.              |
-| `HYS_DISCORD_PREFIX`  |    `>`     | Discord bot prefix command.     |
-| `HYS_CACHE_DIALECT`   | `inmemory` | Cache type (`redis`,`inmemory`) |
-| `HYS_CACHE_ADDRESS`   |            | Cache address.                  |
-| `HYS_CACHE_PASSWORD`  |            | Cache passowrd.                 |
-| `HYS_CACHE_TIME`      |   `24h`    | Cache duration.                 |
+   | Name                  |  Default   | Description                     |
+   | --------------------- | :--------: | ------------------------------- |
+   | `HYS_DISCORD_TOKEN`\* |            | Discord bot token.              |
+   | `HYS_DISCORD_PREFIX`  |    `>`     | Discord bot prefix command.     |
+   | `HYS_CACHE_DIALECT`   | `inmemory` | Cache type (`redis`,`inmemory`) |
+   | `HYS_CACHE_ADDRESS`   |            | Cache address.                  |
+   | `HYS_CACHE_PASSWORD`  |            | Cache passowrd.                 |
+   | `HYS_CACHE_TIME`      |   `24h`    | Cache duration.                 |
+   | `HYS_LOG_LEVEL`       |    `-1`    | Log level                       |
+   | `HYS_LOG_JSON`        |  `false`   | Log json format                 |
+   | `HYS_LOG_COLOR`       |   `true`   | Log color                       |
 
 3. Run.
 
@@ -45,7 +55,7 @@ Hayasui is a discord bot to search and provide you anime/manga/character/people 
    make bot
 
    # or using docker
-   make docker
+   make docker-bot
    # to stop docker
    make docker-stop
    ```
